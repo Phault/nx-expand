@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "PluginConfig",
+  "type": "object",
+  "properties": {
+    "vercelCommand": {
+      "type": "string",
+      "default": "vercel",
+      "description": "Override the command for Vercel CLI, e.g. to use the locally installed package or proxify-vercel."
+    }
+  }
+}

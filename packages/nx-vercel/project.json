@@ -10,6 +10,7 @@
         "outputPath": "dist/packages/nx-vercel",
         "main": "packages/nx-vercel/src/index.ts",
         "tsConfig": "packages/nx-vercel/tsconfig.lib.json",
+        "skipTypeCheck": false,
         "assets": [
           "packages/nx-vercel/*.md",
           {

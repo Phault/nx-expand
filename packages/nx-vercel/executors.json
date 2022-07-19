@@ -1,4 +1,15 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "executors": {}
+  "executors": {
+    "deploy": {
+      "implementation": "./src/executors/deploy-prebuilt/executor",
+      "schema": "./src/executors/deploy-prebuilt/schema.json",
+      "description": "Deploy an already built app to Vercel."
+    },
+    "pull": {
+      "implementation": "./src/executors/pull/executor",
+      "schema": "./src/executors/pull/schema.json",
+      "description": "Link project and pull environment files."
+    }
+  }
 }
