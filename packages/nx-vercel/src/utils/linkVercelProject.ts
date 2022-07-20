@@ -19,6 +19,7 @@ export function linkVercelProject(
       projectId,
       orgId,
     });
+    return;
   }
 
   const currentVercelProject =
