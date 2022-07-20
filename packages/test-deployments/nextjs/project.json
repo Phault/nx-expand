@@ -1,0 +1,56 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/test-deployments/nextjs",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "packages/test-deployments/nextjs",
+        "outputPath": "dist/packages/test-deployments/nextjs"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "tmp/packages/test-deployments/nextjs"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "test-deployments-nextjs:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "test-deployments-nextjs:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "test-deployments-nextjs:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "test-deployments-nextjs:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/test-deployments/nextjs/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  },
+  "tags": ["test-deployment"]
+}
