@@ -59,10 +59,18 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
-        "preset": "conventional"
+        "preset": "conventional",
+        "postTargets": ["nx-vercel:deploy-github", "nx-vercel:deploy-npm"]
       }
     },
-    "deploy": {
+    "deploy-github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "deploy-npm": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "access": "public"
