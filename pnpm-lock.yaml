@@ -29,6 +29,7 @@ specifiers:
   husky: ^8.0.0
   jest: 27.5.1
   jsonc-eslint-parser: ^2.1.0
+  ngx-deploy-npm: ^4.1.2
   nx: 14.4.3
   prettier: ^2.6.2
   ts-jest: 27.1.4
@@ -69,6 +70,7 @@ devDependencies:
   husky: 8.0.1
   jest: 27.5.1_ts-node@10.8.2
   jsonc-eslint-parser: 2.1.0
+  ngx-deploy-npm: 4.1.2_nx@14.4.3
   nx: 14.4.3_etbtevqnjgyr4eacaqhqaj7nzu
   prettier: 2.7.1
   ts-jest: 27.1.4_7qhprak64zhe3pbaj7ujjugqgu
@@ -4993,6 +4995,15 @@ packages:
 
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+    dev: true
+
+  /ngx-deploy-npm/4.1.2_nx@14.4.3:
+    resolution: {integrity: sha512-kfVsD8nC0CLEHGNyVvlbnlhibX17YGxhCRKB21ODiwAXVoipTMjPmbkBWo/JKfrDw4mu5n1YdSleQ+hSwZLyCg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@nrwl/devkit': 14.4.3_nx@14.4.3
+    transitivePeerDependencies:
+      - nx
     dev: true
 
   /node-addon-api/3.2.1:

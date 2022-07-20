@@ -33,6 +33,7 @@
     "husky": "^8.0.0",
     "jest": "27.5.1",
     "jsonc-eslint-parser": "^2.1.0",
+    "ngx-deploy-npm": "^4.1.2",
     "nx": "14.4.3",
     "prettier": "^2.6.2",
     "ts-jest": "27.1.4",
