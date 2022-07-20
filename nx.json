@@ -18,5 +18,12 @@
     "@nrwl/js": {
       "analyzeSourceFiles": true
     }
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    }
   }
 }
