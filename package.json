@@ -2,9 +2,14 @@
   "name": "nx-expand",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky install"
+  },
   "private": true,
   "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@jscutlery/semver": "^2.25.2",
     "@nrwl/cli": "14.4.3",
     "@nrwl/devkit": "14.4.3",
     "@nrwl/eslint-plugin-nx": "14.4.3",
@@ -25,6 +30,7 @@
     "@vercel/build-utils": "^5.0.3",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
+    "husky": "^8.0.0",
     "jest": "27.5.1",
     "jsonc-eslint-parser": "^2.1.0",
     "nx": "14.4.3",
