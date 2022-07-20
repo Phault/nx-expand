@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "nx-vercel": "packages/nx-vercel",
-    "nx-vercel-e2e": "packages/nx-vercel-e2e"
+    "nx-vercel-e2e": "packages/nx-vercel-e2e",
+    "test-deployments-nextjs": "packages/test-deployments/nextjs"
   }
 }
