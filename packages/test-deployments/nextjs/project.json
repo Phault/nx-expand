@@ -3,7 +3,31 @@
   "sourceRoot": "packages/test-deployments/nextjs",
   "projectType": "application",
   "targets": {
+    "pull": {
+      "executor": "nx-vercel:pull",
+      "defaultConfiguration": "development",
+      "options": {
+        "projectId": "prj_QRlvqszLBvhucWoYCRb1ThT68HbM",
+        "orgId": "W6HyWd7KuWHwANJlqrwO1sJN",
+        "projectPath": "packages/test-deployments/nextjs"
+      },
+      "configurations": {
+        "development": {
+          "environment": "development",
+          "outputEnvFile": ".env.development.local"
+        },
+        "preview": {
+          "environment": "preview",
+          "outputEnvFile": ".env.production.local"
+        },
+        "production": {
+          "environment": "production",
+          "outputEnvFile": ".env.production.local"
+        }
+      }
+    },
     "build": {
+      "dependsOn": [{ "projects": "self", "target": "pull" }],
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -15,10 +39,12 @@
         "development": {
           "outputPath": "tmp/packages/test-deployments/nextjs"
         },
+        "preview": {},
         "production": {}
       }
     },
     "serve": {
+      "dependsOn": [{ "projects": "self", "target": "pull" }],
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
@@ -33,6 +59,22 @@
         "production": {
           "buildTarget": "test-deployments-nextjs:build:production",
           "dev": false
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": [{ "projects": "self", "target": "build" }],
+      "executor": "nx-vercel:deploy-prebuilt",
+      "options": {
+        "buildPath": "dist/packages/test-deployments/nextjs"
+      },
+      "configurations": {
+        "preview": {
+          "pullTarget": "test-deployments-nextjs:pull:preview"
+        },
+        "production": {
+          "pullTarget": "test-deployments-nextjs:pull:production",
+          "prod": true
         }
       }
     },
