@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "executors": {
-    "deploy": {
+    "deploy-prebuilt": {
       "implementation": "./src/executors/deploy-prebuilt/executor",
       "schema": "./src/executors/deploy-prebuilt/schema.json",
       "description": "Deploy an already built app to Vercel."
