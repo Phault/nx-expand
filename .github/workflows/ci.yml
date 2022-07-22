@@ -13,6 +13,7 @@ jobs:
     with:
       environment-variables: |
         BUILD_CONFIG=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+        VERCEL_TOKEN=${{ secrets.VERCEL_TOKEN }}
       number-of-agents: 3
       parallel-commands: |
         pnpm exec nx-cloud record -- pnpm exec nx workspace-lint
@@ -30,4 +31,5 @@ jobs:
     with:
       environment-variables: |
         BUILD_CONFIG=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+        VERCEL_TOKEN=${{ secrets.VERCEL_TOKEN }}
       number-of-agents: 3
