@@ -167,6 +167,8 @@ jobs:
         run: ${GITHUB_WORKSPACE//\\//}/.github/workflows/run-commands-in-parallel.sh '${{ steps.parallel_commands_config.outputs.result }}'
 
       - name: Run any configured final-commands sequentially
+        env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: |
           pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1
 
