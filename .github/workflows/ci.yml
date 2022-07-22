@@ -6,30 +6,237 @@ on:
       - main
   pull_request:
 
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_DISTRIBUTED_EXECUTION_AGENT_COUNT: 3
+  NX_BRANCH: ${{ github.event.number || github.ref_name }}
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_AUTH_TOKEN }}
+  BUILD_CONFIG: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
 jobs:
   main:
-    name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.6
-    with:
-      environment-variables: |
-        BUILD_CONFIG=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
-        VERCEL_TOKEN=${{ secrets.VERCEL_TOKEN }}
-      number-of-agents: 3
-      parallel-commands: |
-        pnpm exec nx-cloud record -- pnpm exec nx workspace-lint
-        pnpm exec nx-cloud record -- pnpm exec nx format:check
-        pnpm exec nx affected --target=build --configuration=$BUILD_CONFIG --parallel=3
-      parallel-commands-on-agents: |
-        pnpm exec nx affected --target=lint --parallel=3
-        pnpm exec nx affected --target=test --parallel=3 --ci --code-coverage
-      final-commands: |
-        pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1
+    runs-on: ubuntu-latest
+    name: Nx Cloud - Main Job / Run
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}
+        # Specify shell to help normalize across different operating systems
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout [Pull Request]
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          # By default, PRs will be checked-out based on the Merge Commit, but we want the actual branch HEAD.
+          ref: ${{ github.event.pull_request.head.sha }}
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
 
-  agents:
-    name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.6
-    with:
-      environment-variables: |
-        BUILD_CONFIG=${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
-        VERCEL_TOKEN=${{ secrets.VERCEL_TOKEN }}
-      number-of-agents: 3
+      - uses: actions/checkout@v2
+        name: Checkout [Default Branch]
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: main
+
+      - uses: volta-cli/action@fdf4cf319494429a105efaa71d0e5ec67f338c6e
+
+      # Install pnpm with exact version provided by consumer or fallback to latest
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: latest
+
+      - name: Print node/npm/pnpm versions
+        id: versions
+        run: |
+          node_ver=$( node --version )
+          pnpm_ver=$( pnpm --version )
+
+          echo "Node: ${node_ver:1}"
+          echo "NPM: $( npm --version )"
+          echo "PNPM: $pnpm_ver"
+
+          echo "::set-output name=node_version::${node_ver:1}"
+
+      - name: Use the node_modules cache if available [pnpm]
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-
+
+      - name: Install dependencies
+        run: |
+          echo "Running pnpm install --frozen-lockfile"
+          pnpm install --frozen-lockfile
+
+      # An unfortunate side-effect of the way reusable workflows work is that by the time they are pulled into the "caller"
+      # repo, they are effectively completely embedded in that context. This means that we cannot reference any files which
+      # are local to this repo which defines the workflow, and we therefore need to work around this by embedding the contents
+      # of the shell utilities for executing commands into the workflow directly.
+      - name: Create command utils
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { writeFileSync } = require('fs');
+            const runCommandsInParallelScript = `
+              # Extract the provided commands from the stringified JSON array.
+              IFS=$'\n' read -d '' -a userCommands < <((jq -c -r '.[]') <<<"$1")
+
+              # Invoke the provided commands in parallel and collect their exit codes.
+              pids=()
+              for userCommand in "\${userCommands[@]}"; do
+                eval "$userCommand" & pids+=($!)
+              done
+
+              # If any one of the invoked commands exited with a non-zero exit code, exit the whole thing with code 1.
+              for pid in \${pids[*]}; do
+                if ! wait $pid; then
+                  exit 1
+                fi
+              done
+
+              # All the invoked commands must have exited with code zero.
+              exit 0
+            `;
+            writeFileSync('./.github/workflows/run-commands-in-parallel.sh', runCommandsInParallelScript);
+
+      - name: Prepare command utils
+        # We need to escape the workspace path to be consistent cross-platform: https://github.com/actions/runner/issues/1066
+        run: chmod +x ${GITHUB_WORKSPACE//\\//}/.github/workflows/run-commands-in-parallel.sh
+
+      - name: Initialize the Nx Cloud distributed CI run
+        run: npx nx-cloud start-ci-run
+
+      - name: Process parallel commands configuration
+        uses: actions/github-script@v6
+        id: parallel_commands_config
+        env:
+          PARALLEL_COMMANDS: |
+            pnpm exec nx-cloud record -- pnpm exec nx workspace-lint
+            pnpm exec nx-cloud record -- pnpm exec nx format:check
+            pnpm exec nx affected --target=build --configuration=$BUILD_CONFIG --parallel=3
+          PARALLEL_COMMANDS_ON_AGENTS: |
+            pnpm exec nx affected --target=lint --parallel=3
+            pnpm exec nx affected --target=test --parallel=3 --ci --code-coverage
+        with:
+          # For the ones configured for main, explicitly set NX_CLOUD_DISTRIBUTED_EXECUTION to false, taking into account commands chained with &&
+          # within the strings. In order to properly escape single quotes we need to do some manual replacing and escaping so that the commands
+          # are forwarded onto the run-commands-in-parallel.sh script appropriately.
+          script: |
+            const parallelCommandsOnMainStr = process.env.PARALLEL_COMMANDS || '';
+            const parallelCommandsOnAgentsStr = process.env.PARALLEL_COMMANDS_ON_AGENTS || '';
+
+            const parallelCommandsOnMain = parallelCommandsOnMainStr
+              .split('\n')
+              .map(command => command.trim())
+              .filter(command => command.length > 0)
+              .map(s => s.replace(/'/g, '%27'));
+            const parallelCommandsOnAgents = parallelCommandsOnAgentsStr
+              .split('\n')
+              .map(command => command.trim())
+              .filter(command => command.length > 0)
+              .map(s => s.replace(/'/g, '%27'));
+
+            const formattedArrayOfCommands = [
+              ...parallelCommandsOnMain.map(s => s
+                .split(' && ')
+                .map(s => `NX_CLOUD_DISTRIBUTED_EXECUTION=false ${s}`)
+                .join(' && ')
+              ),
+              ...parallelCommandsOnAgents,
+            ];
+
+            const stringifiedEncodedArrayOfCommands = JSON.stringify(formattedArrayOfCommands)
+              .replace(/%27/g, "'\\''");
+
+            return stringifiedEncodedArrayOfCommands
+          result-encoding: string
+
+      - name: Run any configured parallel commands on main and agent jobs
+        # We need to escape the workspace path to be consistent cross-platform: https://github.com/actions/runner/issues/1066
+        run: ${GITHUB_WORKSPACE//\\//}/.github/workflows/run-commands-in-parallel.sh '${{ steps.parallel_commands_config.outputs.result }}'
+
+      - name: Run any configured final-commands sequentially
+        run: |
+          pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1
+
+      - name: Stop all running agents for this CI run
+        # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
+        if: ${{ always() }}
+        run: npx nx-cloud stop-all-agents
+
+  set-agents:
+    runs-on: ubuntu-latest
+    name: Nx Cloud - Agents / Init
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        shell: bash
+        # Turn the number-of-agents input into a JSON structure which is compatible with a Github job matrix strategy
+        run: |
+          AGENTS_JSON_ARRAY=$(node -e "console.log(JSON.stringify(Array.from(new Array(${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION_AGENT_COUNT }})).map((_, i) => i + 1)));")
+          echo $AGENTS_JSON_ARRAY
+          echo "::set-output name=matrix::$AGENTS_JSON_ARRAY"
+
+  agent-run:
+    needs: set-agents
+    runs-on: ubuntu-latest
+    name: Nx Cloud - Agents / Agent ${{ matrix.agent }}
+    strategy:
+      matrix:
+        agent:
+          - ${{fromJson(needs.set-agents.outputs.matrix)}}
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}
+        # Specify shell to help normalize across different operating systems
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+
+      # Set node/npm versions using volta, with optional overrides provided by the consumer
+      - uses: volta-cli/action@fdf4cf319494429a105efaa71d0e5ec67f338c6e
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2.2.1
+        with:
+          version: latest
+
+      - name: Print node/npm/pnpm versions
+        id: versions
+        run: |
+          node_ver=$( node --version )
+          pnpm_ver=$( pnpm --version )
+          echo "Node: ${node_ver:1}"
+          echo "NPM: $( npm --version )"
+          echo "PNPM: $pnpm_ver"
+          echo "::set-output name=node_version::${node_ver:1}"
+
+      - name: Use the node_modules cache if available [pnpm]
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ steps.versions.outputs.node_version }}-
+
+      - name: Install dependencies
+        run: |
+          echo "Running pnpm install --frozen-lockfile"
+          pnpm install --frozen-lockfile
+
+      - name: Start Nx Agent ${{ matrix.agent }}
+        run: npx nx-cloud start-agent
+        env:
+          NX_AGENT_NAME: ${{matrix.agent}}
