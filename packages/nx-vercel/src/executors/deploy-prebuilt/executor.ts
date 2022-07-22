@@ -53,7 +53,7 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
     }
   }
 
-  const deployArgs = ['deploy', '--prebuilt'];
+  const deployArgs = ['deploy', '--prebuilt', '--cwd', projectPath];
 
   if (options.debug) {
     deployArgs.push('--debug');
@@ -76,7 +76,7 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
     vercelCommand,
     deployArgs,
     {
-      cwd: projectPath,
+      cwd: context.root,
       /**
        * the output gets a bit mangled, as the stdout is inserted into the middle of the regular stderr output, so we
        * silence the stdout and log it ourselves afterwards
