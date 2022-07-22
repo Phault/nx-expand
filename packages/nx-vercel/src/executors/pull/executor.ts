@@ -46,7 +46,15 @@ async function ensureDotEnvSymlink(
 const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   const { vercelCommand = 'vercel' } = getPluginConfig(context.workspace);
 
-  const pullArgs = ['pull', '--environment', options.environment];
+  const projectPath = path.resolve(context.root, options.projectPath);
+
+  const pullArgs = [
+    'pull',
+    '--cwd',
+    projectPath,
+    '--environment',
+    options.environment,
+  ];
 
   if (options.debug) {
     pullArgs.push('--debug');
@@ -57,8 +65,6 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
     pullArgs.push('--token', process.env.VERCEL_TOKEN);
   }
 
-  const projectPath = path.resolve(context.root, options.projectPath);
-
   // apparently we can set VERCEL_ORG_ID and VERCEL_PROJECT_ID instead
   linkVercelProject(projectPath, {
     projectId: options.projectId,
@@ -66,7 +72,7 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   });
 
   await exec(vercelCommand, pullArgs, {
-    cwd: projectPath,
+    cwd: context.root,
   });
 
   if (options.outputEnvFile) {
