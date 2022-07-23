@@ -26,6 +26,19 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
 
   const rootVercelDir = path.resolve(context.root, '.vercel');
 
+  const buildArgs = ['build'];
+  const deployArgs = ['deploy', '--prebuilt', '--cwd', projectPath];
+
+  if (options.debug) {
+    buildArgs.push('--debug');
+    deployArgs.push('--debug');
+  }
+
+  if (options.prod) {
+    buildArgs.push('--prod');
+    deployArgs.push('--prod');
+  }
+
   try {
     /**
      * The Vercel build command seem to rely on the .vercel folder being in the rootDirectory or at least an ancestor
@@ -34,12 +47,6 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
      * NOTE: this means this executor cannot run in parallel on the same machine
      */
     await fs.symlink(vercelDir, rootVercelDir, 'dir');
-
-    const buildArgs = ['build'];
-
-    if (options.debug) {
-      buildArgs.push('--debug');
-    }
 
     await exec(vercelCommand, buildArgs, {
       cwd: context.root,
@@ -51,16 +58,6 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
     } catch (e) {
       logger.warn('Failed to clean up root .vercel symlink');
     }
-  }
-
-  const deployArgs = ['deploy', '--prebuilt', '--cwd', projectPath];
-
-  if (options.debug) {
-    deployArgs.push('--debug');
-  }
-
-  if (options.prod) {
-    deployArgs.push('--prod');
   }
 
   if (process.env.VERCEL_TOKEN) {
