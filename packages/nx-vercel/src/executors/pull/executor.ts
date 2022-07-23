@@ -76,7 +76,7 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   });
 
   if (options.outputEnvFile) {
-    ensureDotEnvSymlink(projectPath, options);
+    await ensureDotEnvSymlink(projectPath, options);
   }
 
   return { success: true };
