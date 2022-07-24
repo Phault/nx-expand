@@ -60,6 +60,7 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
+        "preid": "alpha",
         "postTargets": ["nx-vercel:deploy-github", "nx-vercel:deploy-npm"]
       }
     },
