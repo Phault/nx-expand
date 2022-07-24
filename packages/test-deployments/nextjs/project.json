@@ -5,6 +5,14 @@
   "targets": {
     "pull": {
       "executor": "nx-vercel:pull",
+      "outputs": [
+        "packages/test-deployments/nextjs/.vercel/.env.development.local",
+        "packages/test-deployments/nextjs/.vercel/.env.preview.local",
+        "packages/test-deployments/nextjs/.vercel/.env.production.local",
+        "packages/test-deployments/nextjs/.vercel/project.json",
+        "packages/test-deployments/nextjs/.env.development.local",
+        "packages/test-deployments/nextjs/.env.production.local"
+      ],
       "defaultConfiguration": "development",
       "options": {
         "projectId": "prj_QRlvqszLBvhucWoYCRb1ThT68HbM",

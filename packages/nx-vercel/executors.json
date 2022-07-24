@@ -9,6 +9,7 @@
     "pull": {
       "implementation": "./src/executors/pull/executor",
       "schema": "./src/executors/pull/schema.json",
+      "hasher": "./src/executors/pull/hasher",
       "description": "Link project and pull environment files."
     }
   }
