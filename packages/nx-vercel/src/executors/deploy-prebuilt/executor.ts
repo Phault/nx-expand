@@ -8,6 +8,7 @@ import {
 import { getPluginConfig } from '../../utils/plugin-config/getPluginConfig';
 import { PullExecutorSchema } from '../pull/schema';
 import { DeployPrebuiltExecutorSchema } from './schema';
+import { platform } from 'os';
 import fs = require('fs/promises');
 import path = require('path');
 
@@ -46,7 +47,10 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
      *
      * NOTE: this means this executor cannot run in parallel on the same machine
      */
-    await fs.symlink(vercelDir, rootVercelDir, 'dir');
+
+    // `mklink /D` requires admin privilege in Windows so we need to use junction
+    const symlinkType = platform() === 'win32' ? 'junction' : 'dir';
+    await fs.symlink(vercelDir, rootVercelDir, symlinkType);
 
     await exec(vercelCommand, buildArgs, {
       cwd: context.root,
