@@ -28,10 +28,8 @@ export interface PullExecutorSchema {
   projectPath: string;
 
   /**
-   * If defined then the environment variables for the given {@link environment} will be written* to the specified file
+   * If defined then the environment variables for the given {@link environment} will be written to the specified file
    * relative to {@link projectPath}.
-   *
-   * \*) The file will actually be symlinked to the respective file in {@link projectPath}/.vercel.
    */
   outputEnvFile?: string;
 

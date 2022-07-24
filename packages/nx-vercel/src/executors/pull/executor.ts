@@ -7,13 +7,13 @@ import fs = require('fs/promises');
 import { fileExists } from 'nx/src/utils/fileutils';
 import { linkVercelProject } from '../../utils/linkVercelProject';
 
-async function ensureDotEnvSymlink(
+async function copyEnvironmentFile(
   resolvedProjectPath: string,
   options: PullExecutorSchema
 ) {
   if (!options.outputEnvFile) {
     throw new Error(
-      `Can't create symlink for environment file, since outputEnvFile is not defined.`
+      `Can't create environment file, since outputEnvFile is not defined.`
     );
   }
 
@@ -39,8 +39,10 @@ async function ensureDotEnvSymlink(
     // assuming deletion failed due to the file missing
   }
 
-  await fs.symlink(downloadedEnvFile, outputEnvFile, 'file');
-  logger.info(`Created symlink from ${outputEnvFile} to ${downloadedEnvFile}`);
+  await fs.cp(downloadedEnvFile, outputEnvFile);
+  logger.info(
+    `Copied environment file from ${outputEnvFile} to ${downloadedEnvFile}`
+  );
 }
 
 const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
@@ -76,7 +78,7 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   });
 
   if (options.outputEnvFile) {
-    await ensureDotEnvSymlink(projectPath, options);
+    await copyEnvironmentFile(projectPath, options);
   }
 
   return { success: true };
