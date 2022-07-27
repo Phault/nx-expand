@@ -166,11 +166,37 @@ jobs:
         # We need to escape the workspace path to be consistent cross-platform: https://github.com/actions/runner/issues/1066
         run: ${GITHUB_WORKSPACE//\\//}/.github/workflows/run-commands-in-parallel.sh '${{ steps.parallel_commands_config.outputs.result }}'
 
-      - name: Run any configured final-commands sequentially
+      - name: Deploy
+        id: deploy
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: |
-          pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1
+          OUTPUT=$(pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1)
+          EXIT_CODE=$?
+
+          if [ EXIT_CODE == 0 ]; then
+            DEPLOY_URLS = $(echo $OUTPUT | grep Deployment)
+            echo "::set-output name=urls::$DEPLOY_URLS"
+          fi
+
+          echo $OUTPUT
+          exit $EXIT_CODE
+
+      - uses: marocchino/sticky-pull-request-comment@v2
+        if: ${{ steps.deploy.outcome == 'success' }}
+        with:
+          header: Deployment succeeded
+          message: |
+            ```
+            ${{ steps.deploy.outputs.urls }}
+            ```
+
+      - uses: marocchino/sticky-pull-request-comment@v2
+        if: ${{ steps.deploy.outcome == 'failure' }}
+        with:
+          header: Deployment failed
+          message: |
+            Please check CI logs.
 
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
