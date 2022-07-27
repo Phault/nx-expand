@@ -172,7 +172,7 @@ jobs:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
         run: |
           exec 5>&1
-          OUTPUT=$(pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1 | tee >(cat - >&5))
+          OUTPUT=$(pnpm exec nx affected --target=deploy --configuration=$BUILD_CONFIG --parallel=1 | tee >(cat - >&5); exit ${PIPESTATUS[0]})
           EXIT_CODE=$?
 
           if [ EXIT_CODE == 0 ]; then
