@@ -19,10 +19,6 @@
       "description": "The environment to pull variables for.",
       "default": "development"
     },
-    "projectPath": {
-      "type": "string",
-      "example": "dist/apps/my-app-vercel"
-    },
     "outputEnvFile": {
       "type": "string",
       "example": ".env.local"
@@ -33,5 +29,5 @@
       "default": false
     }
   },
-  "required": ["projectId", "orgId", "projectPath"]
+  "required": ["projectId", "orgId"]
 }

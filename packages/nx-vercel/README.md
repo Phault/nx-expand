@@ -39,14 +39,12 @@ Corresponds to `vercel link`, `vercel pull` and `vercel env pull`.
 
 #### Options
 
-| Name          | Type                                 | Description                                                                                                                          |
-| ------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| projectId\*   | string                               | Can be found in your project settings on Vercel.                                                                                     |
-| orgId\*       | string                               | Also known as "team id" or "user id". Can be found in your user/team settings on Vercel.                                             |
-| projectPath\* | string                               | The path to your project relative to the workspace root, e.g. `apps/my-app`.                                                         |
-| environment   | development \| preview \| production | The environment to pull environment variables for. (default `development`)                                                           |
-| outputEnvFile | string                               | If defined then the environment variables for the given environment will be written to the specified file relative to `projectPath`. |
-| debug         | boolean                              | Increases logging verbosity (default `false`)                                                                                        |
+| Name          | Type    | Description                                                                                                                                    |
+| ------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| projectId\*   | string  | Can be found in your project settings on Vercel.                                                                                               |
+| orgId\*       | string  | Also known as "team id" or "user id". Can be found in your user/team settings on Vercel.                                                       |
+| outputEnvFile | string  | If defined then the environment variables for the given environment will be written to the specified file relative to `project.json`'s `root`. |
+| debug         | boolean | Increases logging verbosity (default `false`)                                                                                                  |
 
 #### Example
 
@@ -59,7 +57,6 @@ Corresponds to `vercel link`, `vercel pull` and `vercel env pull`.
     "options": {
         "projectId": "prj_aOla8ft3akHJansdsi3jIoxH",
         "orgId": "team_gedDkd7kJdt9buHTHDzAaBc",
-        "projectPath": "apps/my-app"
     },
     "configurations": {
         "development": {
@@ -104,12 +101,11 @@ Corresponds to `vercel build` and `vercel deploy --prebuilt`.
 
 #### Options
 
-| Name         | Type    | Description                                                                                       |
-| ------------ | ------- | ------------------------------------------------------------------------------------------------- |
-| buildPath\*  | string  | The output path of the build task relative to the workspace root.                                 |
-| pullTarget\* | string  | The target `nx-vercel:pull` task that pulled the project settings.                                |
-| prod         | boolean | Whether to create a production deployment (true) or preview deployment (false). (default `false`) |
-| debug        | boolean | Increases logging verbosity (default `false`)                                                     |
+| Name        | Type    | Description                                                                                       |
+| ----------- | ------- | ------------------------------------------------------------------------------------------------- |
+| buildPath\* | string  | The output path of the build task relative to the workspace root.                                 |
+| prod        | boolean | Whether to create a production deployment (true) or preview deployment (false). (default `false`) |
+| debug       | boolean | Increases logging verbosity (default `false`)                                                     |
 
 #### Example
 
@@ -129,14 +125,10 @@ Corresponds to `vercel build` and `vercel deploy --prebuilt`.
     "executor": "nx-vercel:deploy-prebuilt",
     "options": {
         "buildPath": "dist/apps/my-app",
-        // pullTarget is not defined here, to ensure it fails with the default configuration, since Nx does NOT propagate defaultConfiguration to dependsOn targets.
     },
     "configurations": {
-        "preview": {
-            "pullTarget": "my-app:pull:preview"
-        },
+        "preview": {},
         "production": {
-            "pullTarget": "my-app:pull:production",
             "prod": true
         }
     }

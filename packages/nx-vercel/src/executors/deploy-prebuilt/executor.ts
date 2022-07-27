@@ -1,12 +1,6 @@
 import { exec, getExecOutput } from '@actions/exec';
-import {
-  Executor,
-  logger,
-  parseTargetString,
-  readTargetOptions,
-} from '@nrwl/devkit';
+import { Executor, logger } from '@nrwl/devkit';
 import { getPluginConfig } from '../../utils/plugin-config/getPluginConfig';
-import { PullExecutorSchema } from '../pull/schema';
 import { DeployPrebuiltExecutorSchema } from './schema';
 import { platform } from 'os';
 import fs = require('fs/promises');
@@ -17,12 +11,10 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
   context
 ) => {
   const { vercelCommand = 'vercel' } = getPluginConfig(context.workspace);
-
-  const pullOptions = readTargetOptions<PullExecutorSchema>(
-    parseTargetString(options.pullTarget),
-    context
+  const projectPath = path.resolve(
+    context.root,
+    context.workspace.projects[context.projectName].root
   );
-  const projectPath = path.resolve(context.root, pullOptions.projectPath);
   const vercelDir = path.resolve(projectPath, '.vercel');
 
   const rootVercelDir = path.resolve(context.root, '.vercel');
