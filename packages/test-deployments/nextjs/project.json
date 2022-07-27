@@ -9,8 +9,7 @@
       "defaultConfiguration": "development",
       "options": {
         "projectId": "prj_QRlvqszLBvhucWoYCRb1ThT68HbM",
-        "orgId": "W6HyWd7KuWHwANJlqrwO1sJN",
-        "projectPath": "packages/test-deployments/nextjs"
+        "orgId": "W6HyWd7KuWHwANJlqrwO1sJN"
       },
       "configurations": {
         "development": {
@@ -70,11 +69,8 @@
         "buildPath": "dist/packages/test-deployments/nextjs"
       },
       "configurations": {
-        "preview": {
-          "pullTarget": "test-deployments-nextjs:pull:preview"
-        },
+        "preview": {},
         "production": {
-          "pullTarget": "test-deployments-nextjs:pull:production",
           "prod": true
         }
       }

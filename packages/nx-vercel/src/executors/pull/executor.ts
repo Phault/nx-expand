@@ -47,8 +47,10 @@ async function copyEnvironmentFile(
 
 const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   const { vercelCommand = 'vercel' } = getPluginConfig(context.workspace);
-
-  const projectPath = path.resolve(context.root, options.projectPath);
+  const projectPath = path.resolve(
+    context.root,
+    context.workspace.projects[context.projectName].root
+  );
 
   const pullArgs = [
     'pull',

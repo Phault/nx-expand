@@ -8,14 +8,6 @@ export interface DeployPrebuiltExecutorSchema {
   buildPath: string;
 
   /**
-   * The target `nx-vercel:pull` task that pulled the project settings.
-   *
-   * @example
-   * my-app:pull:preview
-   */
-  pullTarget: string;
-
-  /**
    * Whether to create a production deployment (true), or preview deployment (false).
    *
    * @default false
