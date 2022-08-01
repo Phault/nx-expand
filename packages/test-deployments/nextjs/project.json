@@ -66,13 +66,21 @@
       "dependsOn": [{ "projects": "self", "target": "build" }],
       "executor": "nx-vercel:deploy-prebuilt",
       "options": {
-        "buildPath": "dist/packages/test-deployments/nextjs"
+        "buildPath": "dist/packages/test-deployments/nextjs",
+        "postTargets": ["test-deployments-nextjs:deploy-pr-comment"]
       },
       "configurations": {
         "preview": {},
         "production": {
           "prod": true
         }
+      }
+    },
+    "deploy-pr-comment": {
+      "executor": "nx-github:sticky-pr-comment",
+      "options": {
+        "header": "vercel-deployment",
+        "message": "Deployed at $VERCEL_DEPLOY_URL, inspect at $VERCEL_INSPECT_URL"
       }
     },
     "export": {
