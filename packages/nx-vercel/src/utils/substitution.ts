@@ -15,7 +15,7 @@ export function substituteEnvVarsInObject(input: JsonObject): JsonObject {
   return Object.fromEntries(
     Object.entries(input).map(([key, value]) => {
       const processedKey = substituteEnvVarsInString(key);
-      return [processedKey, substituteEnvVars(value)];
+      return [processedKey, value ? substituteEnvVars(value) : value];
     })
   );
 }

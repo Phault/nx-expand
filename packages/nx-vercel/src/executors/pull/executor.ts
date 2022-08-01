@@ -47,6 +47,11 @@ async function copyEnvironmentFile(
 
 const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   const { vercelCommand = 'vercel' } = getPluginConfig(context.workspace);
+
+  if (!context.projectName) {
+    throw new Error('nx-vercel requires projectName to be assigned');
+  }
+
   const projectPath = path.resolve(
     context.root,
     context.workspace.projects[context.projectName].root
