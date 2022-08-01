@@ -80,7 +80,7 @@
       "executor": "nx-github:sticky-pr-comment",
       "options": {
         "header": "vercel-deployment",
-        "message": "Deployed at $VERCEL_DEPLOY_URL, inspect at $VERCEL_INSPECT_URL"
+        "message": "Deployed at $VERCEL_DEPLOYMENT_URL, inspect at $VERCEL_INSPECT_URL"
       }
     },
     "export": {
