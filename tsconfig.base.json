@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "nx-github": ["packages/nx-github/src/index.ts"],
       "nx-vercel": ["packages/nx-vercel/src/index.ts"]
     }
   },
