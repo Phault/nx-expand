@@ -5,6 +5,7 @@ import { DeployPrebuiltExecutorSchema } from './schema';
 import { platform } from 'os';
 import fs = require('fs/promises');
 import path = require('path');
+import { runPostTargets } from '../../utils/post-targets';
 
 const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
   options,
@@ -65,7 +66,7 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
    * The deploy command looks for the .git folder next to .vercel, so it can extract metadata. However even if we send
    * correct metadata their API will ignore it if Git integration is not enabled.
    */
-  const { stdout: deploymentUrl } = await getExecOutput(
+  const { stdout: deploymentUrl, stderr } = await getExecOutput(
     vercelCommand,
     deployArgs,
     {
@@ -82,6 +83,15 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
   );
 
   logger.log(`Deployment: ${deploymentUrl}`);
+
+  const [inspectUrl] = stderr.match(/(https:\/\/vercel\.com\S+)/i) ?? [];
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  (process.env as any).VERCEL_INSPECT_URL = inspectUrl;
+  (process.env as any).VERCEL_DEPLOYMENT_URL = deploymentUrl;
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+
+  await runPostTargets(options.postTargets, context);
 
   return {
     success: true,

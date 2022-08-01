@@ -19,7 +19,69 @@
       "description": "Increases logging verbosity.",
       "type": "boolean",
       "default": false
+    },
+    "postTargets": {
+      "$ref": "#/definitions/PostTargets"
     }
   },
-  "required": ["buildPath"]
+  "required": ["buildPath"],
+  "definitions": {
+    "__COMMENT__": {
+      "type": "object",
+      "title": "These are inlined because Nx's parser does not support remote references 😞"
+    },
+    "Target": {
+      "title": "Target",
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "configuration": {
+          "type": "string"
+        }
+      },
+      "required": ["project", "target"]
+    },
+    "TargetWithOptions": {
+      "title": "TargetWithOptions",
+      "type": "object",
+      "properties": {
+        "target": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/Target"
+            }
+          ]
+        },
+        "overrides": {
+          "type": "object"
+        }
+      },
+      "required": ["target"]
+    },
+    "PostTargets": {
+      "title": "PostTargets",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "#/definitions/Target"
+          },
+          {
+            "$ref": "#/definitions/TargetWithOptions"
+          }
+        ]
+      }
+    }
+  }
 }
