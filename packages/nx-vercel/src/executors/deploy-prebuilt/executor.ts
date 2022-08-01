@@ -12,6 +12,11 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
   context
 ) => {
   const { vercelCommand = 'vercel' } = getPluginConfig(context.workspace);
+
+  if (!context.projectName) {
+    throw new Error('nx-vercel requires projectName to be assigned');
+  }
+
   const projectPath = path.resolve(
     context.root,
     context.workspace.projects[context.projectName].root
@@ -91,7 +96,7 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
   (process.env as any).VERCEL_DEPLOYMENT_URL = deploymentUrl;
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
-  await runPostTargets(options.postTargets, context);
+  await runPostTargets(options.postTargets ?? [], context);
 
   return {
     success: true,
