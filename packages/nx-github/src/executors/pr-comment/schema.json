@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "PrComment executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "prNumber": {
+      "type": "number"
+    },
+    "message": {
+      "$ref": "#/definitions/Message"
+    },
+    "sticky": {
+      "$ref": "#/definitions/StickyOptions"
+    }
+  },
+  "required": ["message"],
+  "definitions": {
+    "Message": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["inline", "file"]
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "content"]
+    },
+    "StickyOptions": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "string"
+        },
+        "append": {
+          "type": "boolean",
+          "default": false
+        },
+        "action": {
+          "type": "string",
+          "enum": ["hide-previous", "recreate", "update"],
+          "default": "update"
+        }
+      },
+      "required": ["header"]
+    }
+  }
+}

@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/schema",
   "executors": {
-    "sticky-pr-comment": {
-      "implementation": "./src/executors/sticky-pr-comment/executor",
-      "schema": "./src/executors/sticky-pr-comment/schema.json",
-      "description": "sticky-pr-comment executor"
+    "pr-comment": {
+      "implementation": "./src/executors/pr-comment/executor",
+      "schema": "./src/executors/pr-comment/schema.json",
+      "description": "pr-comment executor"
     }
   }
 }

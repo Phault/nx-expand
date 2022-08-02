@@ -77,10 +77,15 @@
       }
     },
     "deploy-pr-comment": {
-      "executor": "nx-github:sticky-pr-comment",
+      "executor": "nx-github:pr-comment",
       "options": {
-        "header": "vercel-deployment",
-        "message": "Deployed at $VERCEL_DEPLOYMENT_URL, inspect at $VERCEL_INSPECT_URL"
+        "message": {
+          "type": "inline",
+          "content": "Deployed at $VERCEL_DEPLOYMENT_URL\nInspect at $VERCEL_INSPECT_URL"
+        },
+        "sticky": {
+          "header": "vercel-deployment"
+        }
       }
     },
     "export": {
