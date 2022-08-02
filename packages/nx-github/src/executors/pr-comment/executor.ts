@@ -9,8 +9,13 @@ import {
 } from '../../comment';
 import { Executor, logger } from '@nrwl/devkit';
 import { readFile } from 'node:fs/promises';
+import { substituteEnvVarsInString } from '@nx-expand/utilities';
+import path = require('node:path');
 
-const runExecutor: Executor<PrCommentExecutorSchema> = async (options) => {
+const runExecutor: Executor<PrCommentExecutorSchema> = async (
+  options,
+  context
+) => {
   const {
     prNumber = githubContext.payload.pull_request?.number,
     message,
@@ -35,10 +40,13 @@ const runExecutor: Executor<PrCommentExecutorSchema> = async (options) => {
 
   const octokit = getOctokit(githubToken);
 
-  const messageBody =
+  const messageBody = substituteEnvVarsInString(
     message.type === 'inline'
       ? message.content
-      : await readFile(message.content, { encoding: 'utf-8' });
+      : await readFile(path.resolve(context.root, message.content), {
+          encoding: 'utf-8',
+        })
+  );
 
   const previousComment = sticky
     ? await findPreviousComment(
