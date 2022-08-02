@@ -85,7 +85,8 @@
         },
         "sticky": {
           "header": "vercel-deployment",
-          "action": "hide-previous"
+          "append": true,
+          "action": "recreate"
         }
       }
     },
