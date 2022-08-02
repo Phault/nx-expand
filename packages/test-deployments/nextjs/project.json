@@ -84,7 +84,8 @@
           "content": "Deployed at $VERCEL_DEPLOYMENT_URL\nInspect at $VERCEL_INSPECT_URL"
         },
         "sticky": {
-          "header": "vercel-deployment"
+          "header": "vercel-deployment",
+          "action": "hide-previous"
         }
       }
     },
