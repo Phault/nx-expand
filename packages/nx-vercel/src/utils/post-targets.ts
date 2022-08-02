@@ -8,7 +8,7 @@ import {
   targetToTargetString,
 } from '@nrwl/devkit';
 import type { JsonObject } from 'type-fest';
-import { substituteEnvVarsInObject } from './substitution';
+import { substituteEnvVarsInObject } from '@nx-expand/utilities';
 
 export type TargetString = string;
 
