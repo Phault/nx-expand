@@ -6,6 +6,7 @@
     "nx-github-e2e": "packages/nx-github-e2e",
     "nx-vercel": "packages/nx-vercel",
     "nx-vercel-e2e": "packages/nx-vercel-e2e",
-    "test-deployments-nextjs": "packages/test-deployments/nextjs"
+    "test-deployments-nextjs": "packages/test-deployments/nextjs",
+    "utilities": "packages/utilities"
   }
 }
