@@ -80,13 +80,12 @@
       "executor": "nx-github:pr-comment",
       "options": {
         "message": {
-          "type": "inline",
-          "content": "Deployed at $VERCEL_DEPLOYMENT_URL\nInspect at $VERCEL_INSPECT_URL"
+          "type": "file",
+          "content": "packages/test-deployments/nextjs/pr-comment.md"
         },
         "sticky": {
           "header": "vercel-deployment",
-          "append": true,
-          "action": "recreate"
+          "action": "hide-previous"
         }
       }
     },
