@@ -13,6 +13,16 @@
       }
     }
   },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "targetDependencies": {
+    "build": ["^build"]
+  },
   "pluginsConfig": {
     "@nrwl/js": {
       "analyzeSourceFiles": true
