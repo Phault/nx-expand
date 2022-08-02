@@ -20,7 +20,7 @@
     "@nrwl/linter": "14.3.6",
     "@nrwl/next": "14.3.6",
     "@nrwl/nx-cloud": "latest",
-    "@nrwl/nx-plugin": "^14.3.6",
+    "@nrwl/nx-plugin": "14.3.6",
     "@nrwl/react": "14.3.6",
     "@nrwl/web": "14.3.6",
     "@nrwl/workspace": "14.3.6",
@@ -77,3 +77,4 @@
     "tslib": "^2.3.0"
   }
 }
+
