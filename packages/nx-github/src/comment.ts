@@ -1,3 +1,31 @@
+/**
+ * @file
+ *
+ * Based on https://github.com/marocchino/sticky-pull-request-comment
+ *
+ * @license
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2018 GitHub, Inc. and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 import {
   IssueComment,
   ReportedContentClassifiers,
@@ -5,10 +33,24 @@ import {
   User,
 } from '@octokit/graphql-schema';
 import { GitHub } from '@actions/github/lib/utils';
-import { logger } from '@nrwl/devkit';
 
-function headerComment(header: string): string {
-  return `<!-- Sticky Pull Request Comment${header ?? ''} -->`;
+function getStickyCommentHeader(header: string) {
+  // purposely kept the same as marocchino/sticky-pull-request-comment,
+  // because why not keep the compatibility?
+  return `<!-- Sticky Pull Request Comment${header} -->`;
+}
+
+function getCommentMessage(
+  body: string,
+  header?: string,
+  previousMessage?: string
+) {
+  // previousMessage already contains the header
+  if (previousMessage) {
+    return `${previousMessage}\n${body}`;
+  }
+
+  return header ? `${getStickyCommentHeader(header)}\n${body}` : body;
 }
 
 export async function findPreviousComment(
@@ -19,10 +61,11 @@ export async function findPreviousComment(
   },
   number: number,
   header: string
-): Promise<IssueComment | undefined> {
-  let after = null;
+): Promise<IssueComment | null> {
+  let after: string | null | undefined;
   let hasNextPage = true;
-  const h = headerComment(header);
+  const commentHeader = getStickyCommentHeader(header);
+
   while (hasNextPage) {
     const data = await octokit.graphql<{
       repository: Repository;
@@ -53,24 +96,26 @@ export async function findPreviousComment(
       `,
       { ...repo, after, number }
     );
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+
     const viewer = data.viewer as User;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const repository = data.repository as Repository;
     const target = repository.pullRequest?.comments?.nodes?.find(
       (node: IssueComment | null | undefined) =>
         node?.author?.login === viewer.login.replace('[bot]', '') &&
         !node?.isMinimized &&
-        node?.body?.includes(h)
+        node?.body?.includes(commentHeader)
     );
+
     if (target) {
       return target;
     }
+
     after = repository.pullRequest?.comments?.pageInfo?.endCursor;
     hasNextPage =
       repository.pullRequest?.comments?.pageInfo?.hasNextPage ?? false;
   }
-  return undefined;
+
+  return null;
 }
 
 export async function updateComment(
@@ -80,8 +125,9 @@ export async function updateComment(
   header: string,
   previousBody?: string
 ): Promise<void> {
-  if (!body && !previousBody)
-    return logger.warn('Comment body cannot be blank');
+  if (!body) {
+    throw new Error('Comment body cannot be blank');
+  }
 
   await octokit.graphql(
     `
@@ -97,9 +143,7 @@ export async function updateComment(
     {
       input: {
         id,
-        body: previousBody
-          ? `${previousBody}\n${body}`
-          : `${body}\n${headerComment(header)}`,
+        body: getCommentMessage(body, header, previousBody),
       },
     }
   );
@@ -110,22 +154,20 @@ export async function createComment(
     owner: string;
     repo: string;
   },
-  issue_number: number,
+  issueNumber: number,
   body: string,
-  header: string,
+  header?: string,
   previousBody?: string
 ): Promise<void> {
-  if (!body && !previousBody)
-    return logger.warn('Comment body cannot be blank');
+  if (!body) throw new Error('Comment body cannot be blank');
 
   await octokit.rest.issues.createComment({
     ...repo,
-    issue_number,
-    body: previousBody
-      ? `${previousBody}\n${body}`
-      : `${body}\n${headerComment(header)}`,
+    issue_number: issueNumber,
+    body: getCommentMessage(body, header, previousBody),
   });
 }
+
 export async function deleteComment(
   octokit: InstanceType<typeof GitHub>,
   id: string
@@ -141,6 +183,7 @@ export async function deleteComment(
     { id }
   );
 }
+
 export async function minimizeComment(
   octokit: InstanceType<typeof GitHub>,
   subjectId: string,
@@ -156,20 +199,4 @@ export async function minimizeComment(
     `,
     { input: { subjectId, classifier } }
   );
-}
-
-export function getBodyOf(
-  previous: { body?: string },
-  append: boolean,
-  hideDetails: boolean
-): string | undefined {
-  if (!append) {
-    return undefined;
-  }
-
-  if (!hideDetails) {
-    return previous.body;
-  }
-
-  return previous.body?.replace(/(<details.*?)\s*\bopen\b(.*>)/g, '$1$2');
 }
