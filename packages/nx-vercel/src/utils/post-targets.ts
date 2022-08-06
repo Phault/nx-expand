@@ -26,11 +26,20 @@ export async function runPostTargets(
   context: ExecutorContext,
   result: ExecutorResult
 ) {
-  // load the extra env vars and make the existing available for parameter expansion as well
-  result.env = assign(
+  // load the extra env vars
+  assign(
     process.env,
     mapValues(result.env, (value) => value?.toString())
   );
+
+  const variables = {
+    ...result,
+    env: process.env,
+
+    // cop-out with the type coercion, but failing to see how to do it right 🤷‍♂️
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    context: context as unknown as JsonObject,
+  };
 
   const postTargets = normalizePostTargets(targets);
 
@@ -39,7 +48,7 @@ export async function runPostTargets(
 
     logger.info(`Running post-target "${targetString}".`);
     try {
-      await runPostTarget(postTarget, context, result);
+      await runPostTarget(postTarget, context, variables);
     } catch (error) {
       if (error instanceof Error) {
         logger.error(
