@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "PluginConfig",
+  "type": "object",
+  "properties": {
+    "baseUrl": {
+      "type": "string"
+    },
+    "projectKey": {
+      "type": "string"
+    },
+    "repositorySlug": {
+      "type": "string"
+    }
+  }
+}
