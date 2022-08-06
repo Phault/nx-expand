@@ -1,6 +1,6 @@
 import { exec, getExecOutput } from '@actions/exec';
 import { logger } from '@nrwl/devkit';
-import { getPluginConfig } from '../../utils/plugin-config/getPluginConfig';
+import { getPluginConfig } from '../../utils/plugin-config';
 import { DeployPrebuiltExecutorSchema } from './schema';
 import { platform } from 'os';
 import fs = require('fs/promises');
