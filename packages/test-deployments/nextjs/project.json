@@ -2,7 +2,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/test-deployments/nextjs",
   "projectType": "application",
-  "implicitDependencies": ["nx-vercel"],
+  "implicitDependencies": ["nx-vercel", "nx-github"],
   "targets": {
     "pull": {
       "executor": "nx-vercel:pull",
