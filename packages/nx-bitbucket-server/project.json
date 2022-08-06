@@ -1,0 +1,60 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-bitbucket-server/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-bitbucket-server",
+        "main": "packages/nx-bitbucket-server/src/index.ts",
+        "tsConfig": "packages/nx-bitbucket-server/tsconfig.lib.json",
+        "assets": [
+          "packages/nx-bitbucket-server/*.md",
+          {
+            "input": "./packages/nx-bitbucket-server/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-bitbucket-server/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-bitbucket-server",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-bitbucket-server",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/nx-bitbucket-server/**/*.ts",
+          "packages/nx-bitbucket-server/generators.json",
+          "packages/nx-bitbucket-server/executors.json",
+          "packages/nx-bitbucket-server/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-bitbucket-server"],
+      "options": {
+        "jestConfig": "packages/nx-bitbucket-server/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
