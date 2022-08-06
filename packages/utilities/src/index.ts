@@ -1,1 +1,1 @@
-export * from './lib/substitution';
+export * from './lib/parameter-expansion';

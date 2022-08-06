@@ -1,4 +1,4 @@
-import type { PostTargets } from '../../utils/post-targets';
+import type { PostTargetsOptions } from '../../utils/post-targets';
 
 export interface DeployPrebuiltExecutorSchema {
   /**
@@ -33,5 +33,5 @@ export interface DeployPrebuiltExecutorSchema {
    * - VERCEL_INSPECT_URL - Contains the inspect URL for the deployment
    * - VERCEL_DEPLOYMENT_URL - Contains the preview URL for the deployment
    */
-  postTargets?: PostTargets;
+  postTargets?: PostTargetsOptions['postTargets'];
 }
