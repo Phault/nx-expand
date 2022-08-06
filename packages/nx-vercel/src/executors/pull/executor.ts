@@ -1,6 +1,6 @@
 import { Executor, logger } from '@nrwl/devkit';
 import { exec } from '@actions/exec';
-import { getPluginConfig } from '../../utils/plugin-config/getPluginConfig';
+import { getPluginConfig } from '../../utils/plugin-config';
 import { PullExecutorSchema } from './schema';
 import path = require('path');
 import fs = require('fs/promises');
