@@ -47,6 +47,7 @@ const runExecutor: Executor<PrCommentExecutorSchema> = async (
           encoding: 'utf-8',
         }),
     {
+      ...message.variables,
       env: process.env,
     }
   );

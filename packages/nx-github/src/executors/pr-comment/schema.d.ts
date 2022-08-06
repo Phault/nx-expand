@@ -1,3 +1,5 @@
+import type { JsonObject } from 'type-fest';
+
 export type PrCommentExecutorSchema = {
   /**
    * The number of the PR to comment on.
@@ -20,6 +22,14 @@ export type PrCommentExecutorSchema = {
 export type Message = {
   type: 'inline' | 'file';
   content: string;
+
+  /**
+   * Optional variables to make available via parameter expansion in the message.
+   *
+   * Environment variables are always available under the `env` object e.g.
+   * `${{ env.MY_ENV_VAR }}`.
+   */
+  variables?: JsonObject;
 };
 
 /**
