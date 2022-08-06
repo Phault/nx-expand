@@ -1,4 +1,5 @@
 import {
+  Executor,
   ExecutorContext,
   logger,
   parseTargetString,
@@ -8,7 +9,8 @@ import {
   targetToTargetString,
 } from '@nrwl/devkit';
 import type { JsonObject } from 'type-fest';
-import { substituteEnvVarsInObject } from '@nx-expand/utilities';
+import { expandParametersInObject } from '@nx-expand/utilities';
+import { assign, mapValues } from 'lodash';
 
 export type TargetString = string;
 
@@ -21,8 +23,15 @@ export type PostTargets = (Target | TargetString | TargetWithOptions)[];
 
 export async function runPostTargets(
   targets: PostTargets,
-  context: ExecutorContext
+  context: ExecutorContext,
+  result: ExecutorResult
 ) {
+  // load the extra env vars and make the existing available for parameter expansion as well
+  result.env = assign(
+    process.env,
+    mapValues(result.env, (value) => value?.toString())
+  );
+
   const postTargets = normalizePostTargets(targets);
 
   for (const postTarget of postTargets) {
@@ -30,7 +39,7 @@ export async function runPostTargets(
 
     logger.info(`Running post-target "${targetString}".`);
     try {
-      await runPostTarget(postTarget, context);
+      await runPostTarget(postTarget, context, result);
     } catch (error) {
       if (error instanceof Error) {
         logger.error(
@@ -44,17 +53,21 @@ export async function runPostTargets(
 
 async function runPostTarget(
   postTarget: NormalizedTargetWithOptions,
-  context: ExecutorContext
+  context: ExecutorContext,
+  variables: JsonObject = {}
 ) {
   const targetOptions = readTargetOptions<JsonObject>(
     postTarget.target,
     context
   );
 
-  const overrides = substituteEnvVarsInObject({
-    ...targetOptions,
-    ...postTarget.overrides,
-  });
+  const overrides = expandParametersInObject(
+    {
+      ...targetOptions,
+      ...postTarget.overrides,
+    },
+    variables
+  );
 
   for await (const { success } of await runExecutor(
     postTarget.target,
@@ -95,4 +108,84 @@ export function normalizePostTargets(
           : target.target,
     };
   });
+}
+
+export type ExecutorResult = {
+  success: boolean;
+  metadata?: JsonObject;
+  env?: { [key: string]: string | number | boolean | null | undefined };
+};
+
+async function unwrapExecutorIterator(
+  input: AsyncIterableIterator<ExecutorResult>
+): Promise<ExecutorResult> {
+  let lastResult = { success: false };
+
+  for await (const result of input) {
+    lastResult = result;
+
+    if (!result.success) break;
+  }
+
+  return lastResult;
+}
+
+export type PostTargetsOptions = {
+  /**
+   * Executor targets to run after this task has completed or failed.
+   *
+   * The target overrides are enhanced with support for environment variable
+   * placeholders. Use `$ENV_VAR_NAME` in any string key or value and it will be
+   * replaced with the value of the environment variable.
+   */
+  postTargets?: {
+    onSuccess?: PostTargets;
+    onFailure?: PostTargets;
+  };
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ExecutorWithPostTargets<Options extends PostTargetsOptions = any> =
+  (
+    options: Options,
+    context: ExecutorContext
+  ) => Promise<ExecutorResult> | AsyncIterableIterator<ExecutorResult>;
+
+export function withPostTargets<Options extends PostTargetsOptions>(
+  executor: ExecutorWithPostTargets<Options>
+): Executor<Options> {
+  return async (options, context) => {
+    let result: ExecutorResult | undefined;
+
+    try {
+      const promiseOrIterable = executor(options, context);
+      result =
+        'then' in promiseOrIterable
+          ? await promiseOrIterable
+          : await unwrapExecutorIterator(promiseOrIterable);
+    } catch (e) {
+      // unexpected error, so no metadata is prepared for us
+      // TODO: make some error metadata available, maybe in a separate HOC
+      await runPostTargets(options.postTargets?.onFailure ?? [], context, {
+        success: false,
+      });
+      throw e;
+    }
+
+    if (result.success) {
+      await runPostTargets(
+        options.postTargets?.onSuccess ?? [],
+        context,
+        result
+      );
+    } else {
+      await runPostTargets(
+        options.postTargets?.onFailure ?? [],
+        context,
+        result
+      );
+    }
+
+    return result;
+  };
 }

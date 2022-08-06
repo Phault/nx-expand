@@ -67,7 +67,10 @@
       "executor": "nx-vercel:deploy-prebuilt",
       "options": {
         "buildPath": "dist/packages/test-deployments/nextjs",
-        "postTargets": ["test-deployments-nextjs:deploy-pr-comment"]
+        "postTargets": {
+          "onSuccess": ["test-deployments-nextjs:deploy-pr-comment:success"],
+          "onFailure": ["test-deployments-nextjs:deploy-pr-comment:failure"]
+        }
       },
       "configurations": {
         "preview": {},
@@ -79,13 +82,23 @@
     "deploy-pr-comment": {
       "executor": "nx-github:pr-comment",
       "options": {
-        "message": {
-          "type": "file",
-          "content": "packages/test-deployments/nextjs/pr-comment.md"
-        },
         "sticky": {
-          "header": "vercel-deployment",
+          "header": "test-deployments-nextjs:deployment",
           "action": "hide-previous"
+        }
+      },
+      "configurations": {
+        "success": {
+          "message": {
+            "type": "file",
+            "content": "packages/test-deployments/nextjs/pr-comment-success.md"
+          }
+        },
+        "failure": {
+          "message": {
+            "type": "file",
+            "content": "packages/test-deployments/nextjs/pr-comment-failure.md"
+          }
         }
       }
     },

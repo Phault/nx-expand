@@ -21,7 +21,7 @@
       "default": false
     },
     "postTargets": {
-      "$ref": "#/definitions/PostTargets"
+      "$ref": "#/definitions/PostTargetsOptions"
     }
   },
   "required": ["buildPath"],
@@ -65,6 +65,18 @@
         }
       },
       "required": ["target"]
+    },
+    "PostTargetsOptions": {
+      "title": "PostTargetsOptions",
+      "type": "object",
+      "properties": {
+        "onSuccess": {
+          "$ref": "#/definitions/PostTargets"
+        },
+        "onFailure": {
+          "$ref": "#/definitions/PostTargets"
+        }
+      }
     },
     "PostTargets": {
       "title": "PostTargets",

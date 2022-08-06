@@ -9,7 +9,7 @@ import {
 } from '../../comment';
 import { Executor, logger } from '@nrwl/devkit';
 import { readFile } from 'node:fs/promises';
-import { substituteEnvVarsInString } from '@nx-expand/utilities';
+import { expandParametersInString } from '@nx-expand/utilities';
 import path = require('node:path');
 
 const runExecutor: Executor<PrCommentExecutorSchema> = async (
@@ -40,12 +40,15 @@ const runExecutor: Executor<PrCommentExecutorSchema> = async (
 
   const octokit = getOctokit(githubToken);
 
-  const messageBody = substituteEnvVarsInString(
+  const messageBody = expandParametersInString(
     message.type === 'inline'
       ? message.content
       : await readFile(path.resolve(context.root, message.content), {
           encoding: 'utf-8',
-        })
+        }),
+    {
+      env: process.env,
+    }
   );
 
   const previousComment = sticky

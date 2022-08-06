@@ -1,16 +1,18 @@
 import { exec, getExecOutput } from '@actions/exec';
-import { Executor, logger } from '@nrwl/devkit';
+import { logger } from '@nrwl/devkit';
 import { getPluginConfig } from '../../utils/plugin-config/getPluginConfig';
 import { DeployPrebuiltExecutorSchema } from './schema';
 import { platform } from 'os';
 import fs = require('fs/promises');
 import path = require('path');
-import { runPostTargets } from '../../utils/post-targets';
+import {
+  ExecutorWithPostTargets,
+  withPostTargets,
+} from '../../utils/post-targets';
 
-const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
-  options,
-  context
-) => {
+const runExecutor: ExecutorWithPostTargets<
+  DeployPrebuiltExecutorSchema
+> = async (options, context) => {
   const { vercelCommand = 'vercel' } = getPluginConfig(context.workspace);
 
   if (!context.projectName) {
@@ -91,16 +93,17 @@ const runExecutor: Executor<DeployPrebuiltExecutorSchema> = async (
 
   const [inspectUrl] = stderr.match(/(https:\/\/vercel\.com\S+)/i) ?? [];
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  (process.env as any).VERCEL_INSPECT_URL = inspectUrl;
-  (process.env as any).VERCEL_DEPLOYMENT_URL = deploymentUrl;
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-
-  await runPostTargets(options.postTargets ?? [], context);
-
   return {
     success: true,
+    metadata: {
+      inspectUrl,
+      deploymentUrl,
+    },
+    env: {
+      VERCEL_INSPECT_URL: inspectUrl,
+      VERCEL_DEPLOYMENT_URL: deploymentUrl,
+    },
   };
 };
 
-export default runExecutor;
+export default withPostTargets(runExecutor);
