@@ -91,13 +91,21 @@
         "success": {
           "message": {
             "type": "file",
-            "content": "packages/test-deployments/nextjs/pr-comment-success.md"
+            "content": "packages/test-deployments/nextjs/pr-comment-success.md",
+            "variables": {
+              "projectName": "${{ context.projectName }}",
+              "inspectUrl": "${{ metadata.inspectUrl }}",
+              "deploymentUrl": "${{ metadata.deploymentUrl }}"
+            }
           }
         },
         "failure": {
           "message": {
             "type": "file",
-            "content": "packages/test-deployments/nextjs/pr-comment-failure.md"
+            "content": "packages/test-deployments/nextjs/pr-comment-failure.md",
+            "variables": {
+              "projectName": "${{ context.projectName }}"
+            }
           }
         }
       }

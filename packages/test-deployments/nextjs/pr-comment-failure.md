@@ -1,3 +1,3 @@
-### test-deployments-nextjs deployed failed
+### ${{ projectName }} deploy failed
 
 Please check the CI logs for details.

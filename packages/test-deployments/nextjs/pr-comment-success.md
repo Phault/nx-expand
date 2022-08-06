@@ -1,4 +1,4 @@
-### test-deployments-nextjs deployed succesfully
+### ${{ projectName }} deployed succesfully
 
-Preview at ${{ env.VERCEL_DEPLOYMENT_URL }}
-Inspect at ${{ env.VERCEL_INSPECT_URL }}
+Preview at ${{ deploymentUrl }}
+Inspect at ${{ inspectUrl }}

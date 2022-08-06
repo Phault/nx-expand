@@ -26,6 +26,9 @@
         },
         "content": {
           "type": "string"
+        },
+        "variables": {
+          "type": "object"
         }
       },
       "required": ["type", "content"]
