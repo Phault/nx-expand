@@ -2,6 +2,11 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.1](https://github.com/Phault/nx-expand/compare/nx-github-0.0.1-alpha.1...nx-github-0.0.1) (2022-08-07)
+
+### Dependency Updates
+
+* `utilities` updated to version `0.0.1`
 ## [0.0.1-alpha.1](https://github.com/Phault/nx-expand/compare/nx-github-0.0.1-alpha.0...nx-github-0.0.1-alpha.1) (2022-08-07)
 
 ## 0.0.1-alpha.0 (2022-08-07)
