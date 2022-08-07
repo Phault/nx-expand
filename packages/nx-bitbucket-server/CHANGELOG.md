@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.1](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.1-alpha.1...nx-bitbucket-server-0.0.1) (2022-08-07)
+
+### Dependency Updates
+
+* `utilities` updated to version `0.0.1`
+
+### Bug Fixes
+
+* **nx-bitbucket-server:** allow `prNumber` to be a string ([84327b1](https://github.com/Phault/nx-expand/commit/84327b1942a7aae7668837273d8020d2114d66fa))
+
 ## [0.0.1-alpha.1](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.1-alpha.0...nx-bitbucket-server-0.0.1-alpha.1) (2022-08-07)
 
 ## 0.0.1-alpha.0 (2022-08-07)
