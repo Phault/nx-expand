@@ -10,6 +10,7 @@
         "outputPath": "dist/packages/nx-vercel",
         "main": "packages/nx-vercel/src/index.ts",
         "tsConfig": "packages/nx-vercel/tsconfig.lib.json",
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "skipTypeCheck": false,
         "assets": [
           "packages/nx-vercel/*.md",
@@ -60,15 +61,19 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
+        "releaseAs": "prerelease",
         "preid": "alpha",
-        "postTargets": ["nx-vercel:deploy-github", "nx-vercel:deploy-npm"]
+        "trackDeps": true,
+        "push": true,
+        "postTargets": ["nx-vercel:deploy-github"]
       }
     },
     "deploy-github": {
       "executor": "@jscutlery/semver:github",
       "options": {
         "tag": "${tag}",
-        "notes": "${notes}"
+        "notes": "${notes}",
+        "prerelease": true
       }
     },
     "deploy-npm": {

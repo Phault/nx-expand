@@ -1,6 +1,9 @@
 {
   "name": "nx-expand",
   "version": "0.0.0",
+  "author": "Casper Lindschouw <casper@lindschouw.me>",
+  "repository": "https://github.com/Phault/nx-expand",
+  "bugs": "https://github.com/Phault/nx-expand/issues",
   "license": "MIT",
   "scripts": {
     "prepare": "husky install"

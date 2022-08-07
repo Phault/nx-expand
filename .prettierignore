@@ -3,3 +3,6 @@
 /dist
 /coverage
 pnpm-lock.yaml
+
+# auto-generated changelogs aren't formatted correctly
+CHANGELOG.md

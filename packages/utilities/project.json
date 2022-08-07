@@ -10,7 +10,8 @@
         "outputPath": "dist/packages/utilities",
         "main": "packages/utilities/src/index.ts",
         "tsConfig": "packages/utilities/tsconfig.lib.json",
-        "assets": ["packages/utilities/*.md"]
+        "assets": ["packages/utilities/*.md"],
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "lint": {
@@ -26,6 +27,21 @@
       "options": {
         "jestConfig": "packages/utilities/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "releaseAs": "prerelease",
+        "preid": "alpha",
+        "trackDeps": true
+      }
+    },
+    "deploy-npm": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
       }
     }
   },

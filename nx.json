@@ -21,7 +21,8 @@
     ".eslintrc.json": "*"
   },
   "targetDependencies": {
-    "build": ["^build"]
+    "build": ["^build"],
+    "version": ["^version"]
   },
   "pluginsConfig": {
     "@nrwl/js": {
