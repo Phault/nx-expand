@@ -1,5 +1,5 @@
 import { NxJsonConfiguration } from '@nrwl/devkit';
-import PluginConfigSchema = require('./plugin-config.json');
+import PluginConfigSchema = require('./plugin-config-schema.json');
 import { getPluginConfig as getPluginConfigOriginal } from '@nx-expand/utilities';
 
 export interface PluginConfig {
