@@ -33,8 +33,6 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
-        "releaseAs": "prerelease",
-        "preid": "alpha",
         "trackDeps": true
       }
     },

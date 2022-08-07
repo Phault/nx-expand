@@ -61,8 +61,6 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
-        "releaseAs": "prerelease",
-        "preid": "alpha",
         "trackDeps": true,
         "push": true,
         "postTargets": ["nx-bitbucket-server:deploy-github"]
