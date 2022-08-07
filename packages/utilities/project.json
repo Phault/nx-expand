@@ -33,6 +33,7 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "conventional",
+        "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
         "trackDeps": true
       }
     },
