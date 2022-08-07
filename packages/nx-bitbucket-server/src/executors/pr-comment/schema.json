@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "prNumber": {
-      "type": "number"
+      "type": ["number", "string"]
     },
     "message": {
       "$ref": "#/definitions/Message"
