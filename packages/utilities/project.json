@@ -34,7 +34,8 @@
       "options": {
         "preset": "conventional",
         "commitMessageFormat": "chore(${projectName}): release version ${version} [skip ci]",
-        "trackDeps": true
+        "trackDeps": true,
+        "push": true
       }
     },
     "deploy-npm": {
