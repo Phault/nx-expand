@@ -27,6 +27,21 @@
         "jestConfig": "packages/utilities/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "releaseAs": "prerelease",
+        "preid": "alpha",
+        "postTargets": ["utilities:deploy-github", "utilities:deploy-npm"]
+      }
+    },
+    "deploy-npm": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
     }
   },
   "tags": []

@@ -1,7 +1,17 @@
 {
   "name": "nx-github",
   "version": "0.0.1",
+  "author": "Casper Lindschouw <casper@lindschouw.me>",
+  "repository": "https://github.com/Phault/nx-expand",
+  "bugs": "https://github.com/Phault/nx-expand/issues",
+  "license": "MIT",
   "main": "src/index.js",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "dependencies": {
+    "@octokit/graphql-schema": "^10.74.2",
+    "@actions/github": "^5.0.3",
+    "@nx-expand/utilities": "0.0.1",
+    "lodash": "^4.17.21"
+  }
 }
