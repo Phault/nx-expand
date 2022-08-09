@@ -24,7 +24,7 @@ const runExecutor: Executor<PrCommentExecutorSchema> = async (
       ? Number.parseInt(options.prNumber)
       : options.prNumber;
 
-  if (prNumber === undefined) {
+  if (!prNumber) {
     logger.info(`'prNumber' wasn't provided, skipping creation of comment.`);
 
     return {

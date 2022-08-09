@@ -4,7 +4,7 @@ export type PrCommentExecutorSchema = {
   /**
    * The number of the PR to comment on.
    */
-  prNumber: number | string;
+  prNumber?: number | string;
 
   /**
    * The message of the comment to post.
