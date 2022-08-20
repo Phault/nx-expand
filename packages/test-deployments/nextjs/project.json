@@ -68,8 +68,8 @@
       "options": {
         "buildPath": "dist/packages/test-deployments/nextjs",
         "postTargets": {
-          "onSuccess": ["test-deployments-nextjs:deploy-pr-comment:success"],
-          "onFailure": ["test-deployments-nextjs:deploy-pr-comment:failure"]
+          "onSuccess": ["test-deployments-nextjs:deploy-pr-comment"],
+          "onFailure": ["test-deployments-nextjs:deploy-pr-comment"]
         }
       },
       "configurations": {
@@ -82,31 +82,19 @@
     "deploy-pr-comment": {
       "executor": "nx-github:pr-comment",
       "options": {
+        "message": {
+          "type": "file",
+          "content": "packages/test-deployments/nextjs/pr-comment.md",
+          "variables": {
+            "success": "{{success}}",
+            "projectName": "{{context.projectName}}",
+            "inspectUrl": "{{metadata.inspectUrl}}",
+            "deploymentUrl": "{{metadata.deploymentUrl}}"
+          }
+        },
         "sticky": {
           "header": "test-deployments-nextjs:deployment",
           "action": "hide-previous"
-        }
-      },
-      "configurations": {
-        "success": {
-          "message": {
-            "type": "file",
-            "content": "packages/test-deployments/nextjs/pr-comment-success.md",
-            "variables": {
-              "projectName": "${{ context.projectName }}",
-              "inspectUrl": "${{ metadata.inspectUrl }}",
-              "deploymentUrl": "${{ metadata.deploymentUrl }}"
-            }
-          }
-        },
-        "failure": {
-          "message": {
-            "type": "file",
-            "content": "packages/test-deployments/nextjs/pr-comment-failure.md",
-            "variables": {
-              "projectName": "${{ context.projectName }}"
-            }
-          }
         }
       }
     },

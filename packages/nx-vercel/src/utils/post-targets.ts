@@ -9,7 +9,7 @@ import {
   targetToTargetString,
 } from '@nrwl/devkit';
 import type { JsonObject } from 'type-fest';
-import { expandParametersInObject } from '@nx-expand/utilities';
+import { renderObject } from '@nx-expand/utilities';
 import { assign, mapValues } from 'lodash';
 
 export type TargetString = string;
@@ -70,12 +70,16 @@ async function runPostTarget(
     context
   );
 
-  const overrides = expandParametersInObject(
+  const overrides = renderObject(
     {
       ...targetOptions,
       ...postTarget.overrides,
     },
-    variables
+    variables,
+    undefined,
+    {
+      escape: (text) => text,
+    }
   );
 
   for await (const { success } of await runExecutor(
