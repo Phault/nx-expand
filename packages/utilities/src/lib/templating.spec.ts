@@ -1,12 +1,8 @@
-import {
-  expandParametersInArray,
-  expandParametersInObject,
-  expandParametersInString,
-} from './parameter-expansion';
+import { renderArray, renderObject, renderString } from './templating';
 
-describe('expandParametersInString', () => {
+describe('renderString', () => {
   it('expands parameters', () => {
-    const actual = expandParametersInString('Hello ${{ someParameter }}!', {
+    const actual = renderString('Hello {{someParameter}}!', {
       someParameter: 'world',
     });
 
@@ -14,18 +10,15 @@ describe('expandParametersInString', () => {
   });
 
   it('unknown parameters are removed', () => {
-    const actual = expandParametersInString(
-      'Hello ${{ someUnknownParameter }}!',
-      {}
-    );
+    const actual = renderString('Hello {{someUnknownParameter}}!', {});
 
     expect(actual).toBe('Hello !');
   });
 });
 
-describe('expandParametersInArray', () => {
+describe('renderArray', () => {
   it('expands parameters', () => {
-    const actual = expandParametersInArray(['Hello ${{ someParameter }}!'], {
+    const actual = renderArray(['Hello {{someParameter}}!'], {
       someParameter: 'world',
     });
 
@@ -33,10 +26,10 @@ describe('expandParametersInArray', () => {
   });
 
   it('is recursive', () => {
-    const actual = expandParametersInArray(
+    const actual = renderArray(
       [
-        'Hello ${{ someParameter }}!',
-        ['Hello ${{ someParameter }}!', ['Hello ${{ someParameter }}!']],
+        'Hello {{someParameter}}!',
+        ['Hello {{someParameter}}!', ['Hello {{someParameter}}!']],
       ],
       {
         someParameter: 'world',
@@ -50,17 +43,17 @@ describe('expandParametersInArray', () => {
   });
 
   it('keeps non-string variables', () => {
-    const actual = expandParametersInArray([1, false], {});
+    const actual = renderArray([1, false], {});
 
     expect(actual).toEqual([1, false]);
   });
 });
 
-describe('expandParametersInObject', () => {
+describe('renderObject', () => {
   it('expands parameters', () => {
-    const actual = expandParametersInObject(
+    const actual = renderObject(
       {
-        greeting: 'Hello ${{ someParameter }}!',
+        greeting: 'Hello {{someParameter}}!',
       },
       {
         someParameter: 'world',
@@ -71,13 +64,13 @@ describe('expandParametersInObject', () => {
   });
 
   it('is recursive', () => {
-    const actual = expandParametersInObject(
+    const actual = renderObject(
       {
-        greeting: 'Hello ${{ someParameter }}!',
+        greeting: 'Hello {{someParameter}}!',
         nested: {
-          greeting: 'Hello ${{ someParameter }}!',
+          greeting: 'Hello {{someParameter}}!',
           superNested: {
-            greeting: 'Hello ${{ someParameter }}!',
+            greeting: 'Hello {{someParameter}}!',
           },
         },
       },
@@ -98,7 +91,7 @@ describe('expandParametersInObject', () => {
   });
 
   it('keeps non-string variables', () => {
-    const actual = expandParametersInObject(
+    const actual = renderObject(
       {
         someNum: 1,
         someBoolean: false,

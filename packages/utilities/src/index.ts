@@ -1,2 +1,2 @@
-export * from './lib/parameter-expansion';
+export * from './lib/templating';
 export * from './lib/plugin-config';
