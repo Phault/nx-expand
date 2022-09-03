@@ -1,4 +1,4 @@
-import { NxJsonConfiguration } from '@nrwl/devkit';
+import { ExecutorContext } from '@nrwl/devkit';
 import PluginConfigSchema = require('./plugin-config-schema.json');
 import { getPluginConfig as getPluginConfigOriginal } from '@nx-expand/utilities';
 
@@ -10,9 +10,9 @@ export interface PluginConfig {
   vercelCommand?: string;
 }
 
-export const getPluginConfig = (nxConfig: NxJsonConfiguration) =>
+export const getPluginConfig = (context: ExecutorContext) =>
   getPluginConfigOriginal<PluginConfig>(
-    nxConfig,
+    context,
     'nx-vercel',
     PluginConfigSchema
   );
