@@ -9,7 +9,15 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "runtimeCacheInputs": [
+          "echo $NODE_ENV",
+          "echo $NOW_BUILDER",
+          "echo $NEXT_EDGE_RUNTIME_PROVIDER",
+          "echo $NEXT_PRIVATE_TARGET",
+          "echo $NEXT_PUBLIC_GOOGLE_TAG_MANAGER_CONTAINER_ID",
+          "echo $NEXT_PUBLIC_COOKIE_INFORMATION_BANNER_ID"
+        ]
       }
     }
   },
