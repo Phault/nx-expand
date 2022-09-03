@@ -16,9 +16,7 @@ const runExecutor: Executor<PrCommentExecutorSchema> = async (
   context
 ) => {
   const { message, sticky } = options;
-  const { projectKey, repositorySlug, baseUrl } = getPluginConfig(
-    context.workspace
-  );
+  const { projectKey, repositorySlug, baseUrl } = getPluginConfig(context);
   const prNumber =
     typeof options.prNumber === 'string'
       ? Number.parseInt(options.prNumber)

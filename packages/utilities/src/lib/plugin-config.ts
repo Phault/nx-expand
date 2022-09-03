@@ -1,4 +1,9 @@
-import { NxJsonConfiguration } from '@nrwl/devkit';
+import {
+  ExecutorContext,
+  joinPathFragments,
+  NxJsonConfiguration,
+  readJsonFile,
+} from '@nrwl/devkit';
 import {
   setDefaults,
   validateOptsAgainstSchema,
@@ -8,10 +13,13 @@ import {
 } from 'nx/src/utils/params';
 
 export function getPluginConfig<T>(
-  nxConfig: NxJsonConfiguration,
+  context: ExecutorContext,
   pluginName: string,
   schema: Schema
 ): T {
+  const nxConfig = readJsonFile<NxJsonConfiguration>(
+    joinPathFragments(context.root, 'nx.json')
+  );
   const pluginConfig = (nxConfig.pluginsConfig?.[pluginName] ?? {}) as Record<
     string,
     unknown

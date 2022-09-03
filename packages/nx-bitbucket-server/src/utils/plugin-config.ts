@@ -1,4 +1,4 @@
-import { NxJsonConfiguration } from '@nrwl/devkit';
+import { ExecutorContext } from '@nrwl/devkit';
 import PluginConfigSchema = require('./plugin-config-schema.json');
 import { getPluginConfig as getPluginConfigOriginal } from '@nx-expand/utilities';
 
@@ -8,9 +8,9 @@ export type PluginConfig = {
   repositorySlug: string;
 };
 
-export const getPluginConfig = (nxConfig: NxJsonConfiguration) =>
+export const getPluginConfig = (context: ExecutorContext) =>
   getPluginConfigOriginal<PluginConfig>(
-    nxConfig,
+    context,
     'nx-bitbucket-server',
     PluginConfigSchema
   );
