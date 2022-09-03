@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.3](https://github.com/Phault/nx-expand/compare/nx-vercel-0.0.2...nx-vercel-0.0.3) (2022-09-03)
+
+### Dependency Updates
+
+* `utilities` updated to version `0.0.3`
+
+### Bug Fixes
+
+* **nx-vercel,nx-bitbucket-server:** read nx.json manually instead of relying on executor context ([57b36b4](https://github.com/Phault/nx-expand/commit/57b36b4d7c2f4c19ed88b4e9f0b57a67169dbdae))
+
 ## [0.0.2](https://github.com/Phault/nx-expand/compare/nx-vercel-0.0.1...nx-vercel-0.0.2) (2022-08-09)
 
 ### Dependency Updates
