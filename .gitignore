@@ -40,3 +40,6 @@ nx-cloud.env
 Thumbs.db
 
 .vercel
+
+# Next.js
+.next

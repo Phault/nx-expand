@@ -156,7 +156,7 @@ export class BitbucketServer {
 }
 
 export class ResponseError extends Error {
-  name: 'ResponseError' = 'ResponseError';
+  name: 'ResponseError' = 'ResponseError' as const;
   constructor(public response: Response, msg?: string) {
     super(msg);
   }

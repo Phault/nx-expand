@@ -27,7 +27,12 @@
       }
     },
     "build": {
-      "dependsOn": [{ "projects": "self", "target": "pull" }],
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "pull"
+        }
+      ],
       "executor": "@nrwl/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -37,14 +42,19 @@
       },
       "configurations": {
         "development": {
-          "outputPath": "tmp/packages/test-deployments/nextjs"
+          "outputPath": "packages/test-deployments/nextjs"
         },
         "preview": {},
         "production": {}
       }
     },
     "serve": {
-      "dependsOn": [{ "projects": "self", "target": "pull" }],
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "pull"
+        }
+      ],
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
@@ -63,7 +73,12 @@
       }
     },
     "deploy": {
-      "dependsOn": [{ "projects": "self", "target": "pull" }],
+      "dependsOn": [
+        {
+          "projects": "self",
+          "target": "pull"
+        }
+      ],
       "executor": "nx-vercel:deploy-prebuilt",
       "options": {
         "buildPath": "dist/packages/test-deployments/nextjs",
@@ -121,7 +136,7 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "packages/test-deployments/nextjs/**/*.{ts,tsx,js,jsx}"
+          "packages/test-deployments/nextjs/pages/**/*.{ts,tsx,js,jsx}"
         ]
       }
     }
