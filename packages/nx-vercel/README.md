@@ -87,16 +87,6 @@ Deploys an already built app to Vercel.
 
 Since the `.vercel` folder will temporarily be moved to the workspace root during deployment, the paths defined in your project settings should be relative to the root.
 
-<!-- Trick for skipping the install and build step -->
-<!-- You will need to tweak your project settings on Vercel to disable the `install` and `build` step, _but_ they should not be empty as this will make Vercel CLI assume it's a completely static site. To work around this set the commands to `true`. `Root directory` should be path to your app's dist folder. `Output directory` is relative to `Root directory` and should contain the location of the `.next` folder.
-
-In short, your project settings should look something like this:
-
-- Build command: "true"
-- Output directory: ".next"
-- Install command: "true"
-- Root directory: "dist/apps/my-app" -->
-
 Corresponds to `vercel build` and `vercel deploy --prebuilt`.
 
 #### Options
