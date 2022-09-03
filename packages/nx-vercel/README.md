@@ -121,7 +121,7 @@ Corresponds to `vercel build` and `vercel deploy --prebuilt`.
     // etc...
 },
 "deploy": {
-    "dependsOn": [{ "projects": "self", "target": "build" }],
+    "dependsOn": [{ "projects": "self", "target": "pull" }],
     "executor": "nx-vercel:deploy-prebuilt",
     "options": {
         "buildPath": "dist/apps/my-app",
