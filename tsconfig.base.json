@@ -19,6 +19,7 @@
       "@nx-expand/utilities": ["packages/utilities/src/index.ts"],
       "nx-bitbucket-server": ["packages/nx-bitbucket-server/src/index.ts"],
       "nx-github": ["packages/nx-github/src/index.ts"],
+      "nx-terraform": ["packages/nx-terraform/src/index.ts"],
       "nx-vercel": ["packages/nx-vercel/src/index.ts"]
     }
   },
