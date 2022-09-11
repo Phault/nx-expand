@@ -1,0 +1,6 @@
+import { App } from 'cdktf';
+import { MyStack } from './my-stack';
+
+const app = new App();
+new MyStack(app, '<%= projectName %>');
+app.synth();

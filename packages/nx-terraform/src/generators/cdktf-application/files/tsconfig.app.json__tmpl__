@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "<%= offsetFromRoot %>dist/out-tsc",
+    "module": "commonjs",
+    "types": ["node"],
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "declaration": true
+  },
+  "exclude": ["jest.config.ts","test-setup.ts","**/*.spec.ts", "**/*.test.ts", "**/*.spec.js", "**/*.test.js"],
+  "include": ["**/*.js", "**/*.ts"]
+}

@@ -1,0 +1,12 @@
+{
+  "language": "typescript",
+  "app": "npx tsx src/app.ts",
+  "output": "dist",
+  "codeMakerOutputt": ".gen",
+  "terraformProviders": [],
+  "terraformModules": [],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}

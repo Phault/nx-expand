@@ -1,0 +1,16 @@
+import { Testing } from 'cdktf';
+import { MyStack } from './my-stack';
+
+describe('MyStack', () => {
+  it('is valid', () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, 'test');
+    expect(Testing.fullSynth(stack)).toBeValidTerraform();
+  });
+
+  it('can be planned', () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, 'test');
+    expect(Testing.fullSynth(stack)).toPlanSuccessfully();
+  });
+});
