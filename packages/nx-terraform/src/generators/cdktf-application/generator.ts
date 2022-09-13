@@ -59,10 +59,19 @@ function addFiles(host: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     host,
-    path.join(__dirname, 'files'),
+    path.join(__dirname, 'files/common'),
     options.projectRoot,
     templateOptions
   );
+
+  if (options.unitTestRunner === 'jest') {
+    generateFiles(
+      host,
+      path.join(__dirname, 'files/jest'),
+      options.projectRoot,
+      templateOptions
+    );
+  }
 }
 
 async function addLinting(host: Tree, options: NormalizedSchema) {
