@@ -1,4 +1,10 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "executors": {}
+  "executors": {
+    "cdktf": {
+      "implementation": "./src/executors/cdktf/executor",
+      "schema": "./src/executors/cdktf/schema.json",
+      "description": "[INTERNAL] Run a cdktf command. Added automatically to any project with a cdktf.json."
+    }
+  }
 }

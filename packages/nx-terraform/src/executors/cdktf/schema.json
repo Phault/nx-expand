@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "[INTERNAL] Cdktf executor",
+  "description": "Run a cdktf command. Some Nx reserved args, such as `--help` or `--version` will require adding `--` before your args to forward them properly e.g. `nx run my-app:cdktf -- --help`. ",
+  "type": "object",
+  "properties": {
+    "__unparsed__": {
+      "description": "Just ignore me. This ensures any arguments are passed along to cdktf.",
+      "hidden": true,
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "$default": {
+        "$source": "unparsed"
+      }
+    }
+  },
+  "required": []
+}

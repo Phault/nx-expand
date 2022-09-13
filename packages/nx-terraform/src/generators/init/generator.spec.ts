@@ -1,5 +1,5 @@
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readJson } from '@nrwl/devkit';
+import { Tree, readJson, NxJsonConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { InitGeneratorSchema } from './schema';
 
@@ -11,6 +11,13 @@ describe('init', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
+  });
+
+  it('should add plugin to nx.json', async () => {
+    await generator(tree, schema);
+    const nxConfig = readJson<NxJsonConfiguration>(tree, 'nx.json');
+
+    expect(nxConfig.plugins).toContain('nx-terraform');
   });
 
   it('should add dependencies', async () => {

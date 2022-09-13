@@ -52,5 +52,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "plugins": ["nx-terraform"]
 }

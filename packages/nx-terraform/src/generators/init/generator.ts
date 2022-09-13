@@ -1,9 +1,11 @@
 import {
   addDependenciesToPackageJson,
   GeneratorCallback,
+  NxJsonConfiguration,
   readJson,
   removeDependenciesFromPackageJson,
   Tree,
+  updateJson,
 } from '@nrwl/devkit';
 import { jestInitGenerator } from '@nrwl/jest';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
@@ -15,6 +17,21 @@ import {
   tsxVersion,
 } from '../../utils/versions';
 import { InitGeneratorSchema } from './schema';
+
+function addPluginToNxConfig(host: Tree) {
+  updateJson(host, 'nx.json', (json: NxJsonConfiguration) => {
+    const plugins = json.plugins ?? [];
+
+    if (!plugins.includes('nx-terraform')) {
+      plugins.push('nx-terraform');
+    }
+
+    return {
+      ...json,
+      plugins,
+    };
+  });
+}
 
 function updateDependencies(host: Tree) {
   const packageJson = readJson<PackageJson>(host, 'package.json');
@@ -36,6 +53,7 @@ function updateDependencies(host: Tree) {
     {
       'nx-terraform': pluginVersion,
       cdktf: cdktfVersion,
+      'cdktf-cli': cdktfVersion,
       constructs: constructsVersion,
       tsx: currentTsxVersion ?? tsxVersion,
     },
@@ -47,6 +65,8 @@ function updateDependencies(host: Tree) {
 
 export default async function (host: Tree, options: InitGeneratorSchema) {
   const tasks: GeneratorCallback[] = [];
+
+  addPluginToNxConfig(host);
 
   if (!options.unitTestRunner || options.unitTestRunner === 'jest') {
     const jestTask = jestInitGenerator(host, {
