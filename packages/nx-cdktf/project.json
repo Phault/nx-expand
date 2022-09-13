@@ -1,34 +1,34 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/nx-terraform/src",
+  "sourceRoot": "packages/nx-cdktf/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-terraform",
-        "main": "packages/nx-terraform/src/index.ts",
-        "tsConfig": "packages/nx-terraform/tsconfig.lib.json",
+        "outputPath": "dist/packages/nx-cdktf",
+        "main": "packages/nx-cdktf/src/index.ts",
+        "tsConfig": "packages/nx-cdktf/tsconfig.lib.json",
         "assets": [
-          "packages/nx-terraform/*.md",
+          "packages/nx-cdktf/*.md",
           {
-            "input": "./packages/nx-terraform/src",
+            "input": "./packages/nx-cdktf/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-terraform/src",
+            "input": "./packages/nx-cdktf/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-terraform",
+            "input": "./packages/nx-cdktf",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/nx-terraform",
+            "input": "./packages/nx-cdktf",
             "glob": "executors.json",
             "output": "."
           }
@@ -40,18 +40,18 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "packages/nx-terraform/**/*.ts",
-          "packages/nx-terraform/generators.json",
-          "packages/nx-terraform/executors.json",
-          "packages/nx-terraform/package.json"
+          "packages/nx-cdktf/**/*.ts",
+          "packages/nx-cdktf/generators.json",
+          "packages/nx-cdktf/executors.json",
+          "packages/nx-cdktf/package.json"
         ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-terraform"],
+      "outputs": ["coverage/packages/nx-cdktf"],
       "options": {
-        "jestConfig": "packages/nx-terraform/jest.config.ts",
+        "jestConfig": "packages/nx-cdktf/jest.config.ts",
         "passWithNoTests": true
       }
     }

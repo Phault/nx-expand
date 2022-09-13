@@ -22,8 +22,8 @@ function addPluginToNxConfig(host: Tree) {
   updateJson(host, 'nx.json', (json: NxJsonConfiguration) => {
     const plugins = json.plugins ?? [];
 
-    if (!plugins.includes('nx-terraform')) {
-      plugins.push('nx-terraform');
+    if (!plugins.includes('nx-cdktf')) {
+      plugins.push('nx-cdktf');
     }
 
     return {
@@ -46,12 +46,12 @@ function updateDependencies(host: Tree) {
   const currentTsxVersion =
     packageJson.dependencies?.['tsx'] ?? packageJson.devDependencies?.['tsx'];
 
-  removeDependenciesFromPackageJson(host, [], ['nx-terraform', 'tsx']);
+  removeDependenciesFromPackageJson(host, [], ['nx-cdktf', 'tsx']);
 
   return addDependenciesToPackageJson(
     host,
     {
-      'nx-terraform': pluginVersion,
+      'nx-cdktf': pluginVersion,
       cdktf: cdktfVersion,
       'cdktf-cli': cdktfVersion,
       constructs: constructsVersion,

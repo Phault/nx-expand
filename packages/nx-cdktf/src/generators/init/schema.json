@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "Init",
-  "title": "Initialize the Terraform plugin.",
+  "title": "Initialize the CDKTF plugin.",
   "type": "object",
   "properties": {
     "unitTestRunner": {

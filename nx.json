@@ -53,5 +53,5 @@
       }
     }
   },
-  "plugins": ["nx-terraform"]
+  "plugins": ["nx-cdktf"]
 }

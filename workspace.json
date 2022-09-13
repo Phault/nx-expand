@@ -4,10 +4,10 @@
   "projects": {
     "nx-bitbucket-server": "packages/nx-bitbucket-server",
     "nx-bitbucket-server-e2e": "packages/nx-bitbucket-server-e2e",
+    "nx-cdktf": "packages/nx-cdktf",
+    "nx-cdktf-e2e": "packages/nx-cdktf-e2e",
     "nx-github": "packages/nx-github",
     "nx-github-e2e": "packages/nx-github-e2e",
-    "nx-terraform": "packages/nx-terraform",
-    "nx-terraform-e2e": "packages/nx-terraform-e2e",
     "nx-vercel": "packages/nx-vercel",
     "nx-vercel-e2e": "packages/nx-vercel-e2e",
     "test-deployments-nextjs": "packages/test-deployments/nextjs",

@@ -10,7 +10,7 @@ export default async function runExecutor(
   const cdktfCommand = `${getPackageManagerCommand().exec} cdktf`;
 
   if (!context.projectName) {
-    throw new Error('nx-terraform requires projectName to be assigned');
+    throw new Error('nx-cdktf requires projectName to be assigned');
   }
 
   const projectPath = path.resolve(
@@ -29,9 +29,7 @@ export default async function runExecutor(
     }
 
     throw new Error(
-      `ERROR: Something went wrong in nx-terraform:cdktf - ${
-        (e as Error).message
-      }`
+      `ERROR: Something went wrong in nx-cdktf:cdktf - ${(e as Error).message}`
     );
   }
 }

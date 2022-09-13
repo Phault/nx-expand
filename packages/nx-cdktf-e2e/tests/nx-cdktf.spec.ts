@@ -6,7 +6,7 @@ import {
   uniq,
 } from '@nrwl/nx-plugin/testing';
 
-describe('nx-terraform e2e', () => {
+describe('nx-cdktf e2e', () => {
   // Setting up individual workspaces per
   // test can cause e2e runs to take a long time.
   // For this reason, we recommend each suite only
@@ -14,7 +14,7 @@ describe('nx-terraform e2e', () => {
   // on a unique project in the workspace, such that they
   // are not dependant on one another.
   beforeAll(() => {
-    ensureNxProject('nx-terraform', 'dist/packages/nx-terraform');
+    ensureNxProject('nx-cdktf', 'dist/packages/nx-cdktf');
   });
 
   afterAll(() => {

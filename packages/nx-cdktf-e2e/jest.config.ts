@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'nx-terraform-e2e',
+  displayName: 'nx-cdktf-e2e',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +11,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/nx-terraform-e2e',
+  coverageDirectory: '../../coverage/packages/nx-cdktf-e2e',
 };

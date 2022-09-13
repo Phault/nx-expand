@@ -13,7 +13,7 @@ import { lintProjectGenerator } from '@nrwl/linter';
 import * as path from 'path';
 import { CdktfApplicationGeneratorSchema } from './schema';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
-import terraformInitGenerator from '../init/generator';
+import cdktfInitGenerator from '../init/generator';
 import { jestProjectGenerator } from '@nrwl/jest';
 import { TsConfigJson } from 'type-fest';
 import { getRelativePathToRootTsConfig } from '@nrwl/workspace/src/utilities/typescript';
@@ -149,7 +149,7 @@ export default async function (
 ) {
   const options = normalizeOptions(host, schema);
 
-  const initTask = await terraformInitGenerator(host, options);
+  const initTask = await cdktfInitGenerator(host, options);
 
   addFiles(host, options);
   addProject(host, options);

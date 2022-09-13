@@ -17,13 +17,13 @@ describe('init', () => {
     await generator(tree, schema);
     const nxConfig = readJson<NxJsonConfiguration>(tree, 'nx.json');
 
-    expect(nxConfig.plugins).toContain('nx-terraform');
+    expect(nxConfig.plugins).toContain('nx-cdktf');
   });
 
   it('should add dependencies', async () => {
     await generator(tree, schema);
     const packageJson = readJson(tree, 'package.json');
-    expect(packageJson.dependencies['nx-terraform']).toBeDefined();
+    expect(packageJson.dependencies['nx-cdktf']).toBeDefined();
     expect(packageJson.dependencies['cdktf']).toBeDefined();
     expect(packageJson.dependencies['constructs']).toBeDefined();
     expect(packageJson.dependencies['tsx']).toBeDefined();
