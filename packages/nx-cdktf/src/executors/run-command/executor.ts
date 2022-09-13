@@ -1,10 +1,10 @@
 import { exec } from '@actions/exec';
 import { ExecutorContext, getPackageManagerCommand } from '@nrwl/devkit';
 import path = require('path');
-import { CdktfExecutorSchema } from './schema';
+import { RunCommandExecutorSchema } from './schema';
 
 export default async function runExecutor(
-  options: CdktfExecutorSchema,
+  options: RunCommandExecutorSchema,
   context: ExecutorContext
 ) {
   const cdktfCommand = `${getPackageManagerCommand().exec} cdktf`;
@@ -29,7 +29,9 @@ export default async function runExecutor(
     }
 
     throw new Error(
-      `ERROR: Something went wrong in nx-cdktf:cdktf - ${(e as Error).message}`
+      `ERROR: Something went wrong in nx-cdktf:run-command - ${
+        (e as Error).message
+      }`
     );
   }
 }

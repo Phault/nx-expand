@@ -5,7 +5,7 @@ export const projectFilePatterns = ['cdktf.json'];
 export const registerProjectTargets: ProjectTargetConfigurator = () => {
   return {
     cdktf: {
-      executor: 'nx-cdktf:cdktf',
+      executor: 'nx-cdktf:run-command',
     },
   };
 };
