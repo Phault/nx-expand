@@ -2,6 +2,7 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
+  getPackageManagerCommand,
   getWorkspaceLayout,
   joinPathFragments,
   names,
@@ -56,7 +57,9 @@ function addFiles(host: Tree, options: NormalizedSchema) {
     offsetFromRoot: offsetFromRoot(options.projectRoot),
     tmpl: '',
     rootTsConfigPath: getRelativePathToRootTsConfig(host, options.projectRoot),
+    execCommand: getPackageManagerCommand().exec,
   };
+
   generateFiles(
     host,
     path.join(__dirname, 'files/common'),

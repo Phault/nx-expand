@@ -1,6 +1,6 @@
 {
   "language": "typescript",
-  "app": "npx tsx src/app.ts",
+  "app": "<%= execCommand %> tsx src/app.ts",
   "output": "dist",
   "codeMakerOutputt": ".gen",
   "terraformProviders": [],
