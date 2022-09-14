@@ -8,7 +8,7 @@ import {
   updateFile,
 } from '@nrwl/nx-plugin/testing';
 import type { NxJsonConfiguration } from 'nx/src/config/nx-json';
-import { getPackageManagerCommand } from 'nx/src/utils/package-manager';
+import { getPackageManagerCommand } from '@nx-expand/utilities';
 
 describe('nx-vercel e2e', () => {
   // Setting up individual workspaces per

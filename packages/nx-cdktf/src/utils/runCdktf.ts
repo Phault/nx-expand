@@ -1,5 +1,6 @@
 import { exec, ExecOptions } from '@actions/exec';
-import { ExecutorContext, getPackageManagerCommand } from '@nrwl/devkit';
+import { ExecutorContext } from '@nrwl/devkit';
+import { getPackageManagerCommand } from '@nx-expand/utilities';
 import path = require('path');
 
 export async function runCdktf(

@@ -2,7 +2,6 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getPackageManagerCommand,
   getWorkspaceLayout,
   joinPathFragments,
   names,
@@ -18,6 +17,7 @@ import cdktfInitGenerator from '../init/generator';
 import { jestProjectGenerator } from '@nrwl/jest';
 import { TsConfigJson } from 'type-fest';
 import { getRelativePathToRootTsConfig } from '@nrwl/workspace/src/utilities/typescript';
+import { getPackageManagerCommand } from '@nx-expand/utilities';
 
 interface NormalizedSchema extends CdktfApplicationGeneratorSchema {
   projectName: string;
