@@ -111,7 +111,26 @@ function addProject(host: Tree, options: NormalizedSchema) {
     root: options.projectRoot,
     projectType: 'application',
     sourceRoot: `${options.projectRoot}/src`,
-    targets: {},
+    targets: {
+      synth: {
+        executor: 'nx-cdktf:synth',
+      },
+      diff: {
+        executor: 'nx-cdktf:diff',
+      },
+      deploy: {
+        executor: 'nx-cdktf:deploy',
+        options: {
+          stacks: [options.projectName],
+        },
+      },
+      destroy: {
+        executor: 'nx-cdktf:destroy',
+        options: {
+          stacks: [options.projectName],
+        },
+      },
+    },
     tags: options.parsedTags,
   });
 }

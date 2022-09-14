@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Output executor",
+  "description": "Prints the output of stacks.",
+  "type": "object",
+  "properties": {
+    "outputsFile": {
+      "type": "string",
+      "description": "Path to file where stack outputs will be written as JSON, relative to cdktf.json."
+    },
+    "outputsFileIncludeSensitiveOutputs": {
+      "type": "boolean",
+      "description": "Whether to include sensitive outputs in the output file."
+    }
+  },
+  "required": []
+}

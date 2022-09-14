@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Watch executor",
+  "description": "[experimental] Watch for file changes and automatically trigger a deploy",
+  "type": "object",
+  "properties": {
+    "stacks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Deploy stacks matching the given ids. Required when more than one stack is present in the app."
+    },
+    "autoApprove": { "type": "boolean", "description": "Auto approve." },
+    "parallelism": {
+      "type": "integer",
+      "description": "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1."
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Synth executor",
+  "description": "Synthesizes Terraform code for the given app in a directory.",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

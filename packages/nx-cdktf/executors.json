@@ -5,6 +5,36 @@
       "implementation": "./src/executors/run-command/executor",
       "schema": "./src/executors/run-command/schema.json",
       "description": "[INTERNAL] Run a cdktf command. Added automatically to any project with a cdktf.json."
+    },
+    "synth": {
+      "implementation": "./src/executors/synth/executor",
+      "schema": "./src/executors/synth/schema.json",
+      "description": "Synthesizes Terraform code."
+    },
+    "deploy": {
+      "implementation": "./src/executors/deploy/executor",
+      "schema": "./src/executors/deploy/schema.json",
+      "description": "Deploy the given stacks."
+    },
+    "destroy": {
+      "implementation": "./src/executors/destroy/executor",
+      "schema": "./src/executors/destroy/schema.json",
+      "description": "Destroy the given stacks."
+    },
+    "watch": {
+      "implementation": "./src/executors/watch/executor",
+      "schema": "./src/executors/watch/schema.json",
+      "description": "Watch for file changes and automatically trigger a deploy."
+    },
+    "diff": {
+      "implementation": "./src/executors/diff/executor",
+      "schema": "./src/executors/diff/schema.json",
+      "description": "Perform a diff (terraform plan) for the given stack"
+    },
+    "output": {
+      "implementation": "./src/executors/output/executor",
+      "schema": "./src/executors/output/schema.json",
+      "description": "Prints the output of stacks."
     }
   }
 }

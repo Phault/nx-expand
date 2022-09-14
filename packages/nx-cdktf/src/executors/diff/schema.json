@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Diff executor",
+  "description": "Perform a diff (terraform plan) for the given stack.",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

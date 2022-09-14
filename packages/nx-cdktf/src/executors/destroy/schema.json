@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Destroy executor",
+  "description": "Destroy the given stacks.",
+  "type": "object",
+  "properties": {
+    "stacks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Deploy stacks matching the given ids. Required when more than one stack is present in the app."
+    },
+    "autoApprove": { "type": "boolean", "description": "Auto approve." },
+    "ignoreMissingStackDependencies": {
+      "type": "boolean",
+      "description": "Don't check if all stacks specified in the command have their dependencies included as well."
+    },
+    "parallelism": {
+      "type": "integer",
+      "description": "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1."
+    }
+  },
+  "required": []
+}
