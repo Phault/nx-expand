@@ -1,7 +1,7 @@
 {
   "language": "typescript",
   "app": "<%= execCommand %> tsx src/app.ts",
-  "output": "dist",
+  "output": "cdktf.out",
   "codeMakerOutputt": ".gen",
   "terraformProviders": [],
   "terraformModules": [],
