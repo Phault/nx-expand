@@ -8,7 +8,7 @@
     "stacks": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Deploy stacks matching the given ids. Required when more than one stack is present in the app."
+      "description": "Destroy stacks matching the given ids. Required when more than one stack is present in the app."
     },
     "autoApprove": { "type": "boolean", "description": "Auto approve." },
     "ignoreMissingStackDependencies": {
