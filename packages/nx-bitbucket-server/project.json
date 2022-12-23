@@ -1,4 +1,5 @@
 {
+  "name": "nx-bitbucket-server",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-bitbucket-server/src",
   "projectType": "library",
@@ -51,7 +52,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-bitbucket-server"],
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-bitbucket-server"],
       "options": {
         "jestConfig": "packages/nx-bitbucket-server/jest.config.ts",
         "passWithNoTests": true

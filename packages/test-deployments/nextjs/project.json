@@ -1,4 +1,5 @@
 {
+  "name": "test-deployments-nextjs",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/test-deployments/nextjs",
   "projectType": "application",
