@@ -47,7 +47,7 @@ jobs:
         with:
           main-branch-name: main
 
-      - uses: volta-cli/action@fdf4cf319494429a105efaa71d0e5ec67f338c6e
+      - uses: volta-cli/action@v3
 
       # Install pnpm with exact version provided by consumer or fallback to latest
       - name: Install PNPM
@@ -209,7 +209,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # Set node/npm versions using volta, with optional overrides provided by the consumer
-      - uses: volta-cli/action@fdf4cf319494429a105efaa71d0e5ec67f338c6e
+      - uses: volta-cli/action@v3
 
       - name: Install PNPM
         uses: pnpm/action-setup@v2.2.1
