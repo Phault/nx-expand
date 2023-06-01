@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.5](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.4...nx-bitbucket-server-0.0.5) (2023-06-01)
+
+### Dependency Updates
+
+* `utilities` updated to version `0.0.5`
+
+### Bug Fixes
+
+* **nx-github,nx-bitbucket-server,nx-vercel:** add missing exports ([3f14a34](https://github.com/Phault/nx-expand/commit/3f14a34223157f1302fff0a8ec3a2685d8ac170e))
+
 ## [0.0.4](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.3...nx-bitbucket-server-0.0.4) (2022-09-03)
 
 ## [0.0.3](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.2...nx-bitbucket-server-0.0.3) (2022-09-03)
