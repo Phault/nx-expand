@@ -55,7 +55,7 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
 
   const projectPath = path.resolve(
     context.root,
-    context.workspace.projects[context.projectName].root
+    context.workspace!.projects[context.projectName].root
   );
 
   const pullArgs = [
