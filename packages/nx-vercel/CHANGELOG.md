@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/Phault/nx-expand/compare/nx-vercel-0.1.2...nx-vercel-0.1.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* **nx-github,nx-bitbucket-server,nx-vercel:** add missing exports ([3f14a34](https://github.com/Phault/nx-expand/commit/3f14a34223157f1302fff0a8ec3a2685d8ac170e))
+
 ## [0.1.2](https://github.com/Phault/nx-expand/compare/nx-vercel-0.1.1...nx-vercel-0.1.2) (2023-06-01)
 
 ### Dependency Updates
