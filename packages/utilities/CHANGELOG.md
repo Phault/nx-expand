@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.4](https://github.com/Phault/nx-expand/compare/utilities-0.0.3...utilities-0.0.4) (2023-06-01)
+
 ## [0.0.3](https://github.com/Phault/nx-expand/compare/utilities-0.0.2...utilities-0.0.3) (2022-09-03)
 
 
