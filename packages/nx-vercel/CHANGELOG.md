@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.0](https://github.com/Phault/nx-expand/compare/nx-vercel-0.0.4...nx-vercel-0.1.0) (2023-06-01)
+
+### Dependency Updates
+
+* `utilities` updated to version `0.0.4`
+
+### Features
+
+* **nx-vercel:** allow overriding vercel project settings ([afde3c9](https://github.com/Phault/nx-expand/commit/afde3c99c52c9b3273861f5f4b18533ded71d738))
+
 ## [0.0.4](https://github.com/Phault/nx-expand/compare/nx-vercel-0.0.3...nx-vercel-0.0.4) (2022-09-03)
 
 ## [0.0.3](https://github.com/Phault/nx-expand/compare/nx-vercel-0.0.2...nx-vercel-0.0.3) (2022-09-03)
