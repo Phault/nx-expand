@@ -1,3 +1,5 @@
+import type { VercelProjectPatch } from '../../utils/patchVercelProject';
+
 export interface PullExecutorSchema {
   /**
    * Can be found in your project settings on Vercel.
@@ -29,4 +31,13 @@ export interface PullExecutorSchema {
    * @default false
    */
   debug?: boolean;
+
+  /**
+   * Override project settings usually configured through the Vercel website.
+   *
+   * Useful for testing purposes.
+   *
+   * CAUTION: This is not officially supported, so use at your own risk.
+   */
+  overrides: VercelProjectPatch;
 }
