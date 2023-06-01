@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/Phault/nx-expand/compare/nx-vercel-0.1.0...nx-vercel-0.1.1) (2023-06-01)
+
 ## [0.1.0](https://github.com/Phault/nx-expand/compare/nx-vercel-0.0.4...nx-vercel-0.1.0) (2023-06-01)
 
 ### Dependency Updates
