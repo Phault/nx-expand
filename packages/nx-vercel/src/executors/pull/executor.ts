@@ -6,6 +6,7 @@ import path = require('path');
 import fs = require('fs/promises');
 import { fileExists } from 'nx/src/utils/fileutils';
 import { linkVercelProject } from '../../utils/linkVercelProject';
+import { patchVercelProject } from '../../utils/patchVercelProject';
 
 async function copyEnvironmentFile(
   resolvedProjectPath: string,
@@ -83,6 +84,10 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   await exec(vercelCommand, pullArgs, {
     cwd: context.root,
   });
+
+  if (options.overrides) {
+    patchVercelProject(projectPath, options.overrides);
+  }
 
   if (options.outputEnvFile) {
     await copyEnvironmentFile(projectPath, options);
