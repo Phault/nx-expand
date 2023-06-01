@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.6](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.5...nx-bitbucket-server-0.0.6) (2023-06-01)
+
 ## [0.0.5](https://github.com/Phault/nx-expand/compare/nx-bitbucket-server-0.0.4...nx-bitbucket-server-0.0.5) (2023-06-01)
 
 ### Dependency Updates
