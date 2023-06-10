@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/Phault/nx-expand/compare/nx-vercel-0.1.4...nx-vercel-0.1.5) (2023-06-10)
+
+
+### Bug Fixes
+
+* **nx-vercel:** treat empty strings as `null` for the Vercel project settings that support it ([01888da](https://github.com/Phault/nx-expand/commit/01888da496a3995d267835058f07fa59d2df01cb))
+
 ## [0.1.4](https://github.com/Phault/nx-expand/compare/nx-vercel-0.1.3...nx-vercel-0.1.4) (2023-06-01)
 
 ## [0.1.3](https://github.com/Phault/nx-expand/compare/nx-vercel-0.1.2...nx-vercel-0.1.3) (2023-06-01)
