@@ -6,7 +6,11 @@ import path = require('path');
 import fs = require('fs/promises');
 import { fileExists } from 'nx/src/utils/fileutils';
 import { linkVercelProject } from '../../utils/linkVercelProject';
-import { patchVercelProject } from '../../utils/patchVercelProject';
+import {
+  VercelProjectPatch,
+  patchVercelProject,
+} from '../../utils/patchVercelProject';
+import { mapValues } from 'lodash';
 
 async function copyEnvironmentFile(
   resolvedProjectPath: string,
@@ -44,6 +48,29 @@ async function copyEnvironmentFile(
   logger.info(
     `Copied environment file from ${outputEnvFile} to ${downloadedEnvFile}`
   );
+}
+
+/**
+ * Nx's json schema validator does apparently neither supports `"type": ["string", "null"]`
+ * nor `nullable: true`, so we treat empty strings as `null` just like Vercel's dashboard.
+ */
+function fixVercelProjectPatch(patch: VercelProjectPatch) {
+  return mapValues(patch, (value, key) => {
+    if (
+      [
+        'framework',
+        'buildCommand',
+        'installCommand',
+        'outputDirectory',
+        'devCommand',
+        'rootDirectory',
+      ].includes(key)
+    ) {
+      return value === '' ? null : value;
+    }
+
+    return value;
+  }) as VercelProjectPatch;
 }
 
 const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
@@ -86,7 +113,7 @@ const runExecutor: Executor<PullExecutorSchema> = async (options, context) => {
   });
 
   if (options.overrides) {
-    patchVercelProject(projectPath, options.overrides);
+    patchVercelProject(projectPath, fixVercelProjectPatch(options.overrides));
   }
 
   if (options.outputEnvFile) {
