@@ -24,8 +24,15 @@ const runExecutor: ExecutorWithPostTargets<
     context.workspace!.projects[context.projectName].root
   );
   const vercelDir = path.resolve(projectPath, '.vercel');
+  const vercelConfig = path.resolve(projectPath, 'vercel.json');
 
   const rootVercelDir = path.resolve(context.root, '.vercel');
+  const rootVercelConfig = path.resolve(context.root, 'vercel.json');
+
+  const hasVercelConfig = await fs.stat(vercelConfig).then(
+    () => true,
+    () => false
+  );
 
   const buildArgs = ['build'];
   const deployArgs = ['deploy', '--prebuilt', '--cwd', projectPath];
@@ -51,16 +58,19 @@ const runExecutor: ExecutorWithPostTargets<
     // `mklink /D` requires admin privilege in Windows so we need to use junction
     const symlinkType = platform() === 'win32' ? 'junction' : 'dir';
     await fs.symlink(vercelDir, rootVercelDir, symlinkType);
+    if (hasVercelConfig)
+      await fs.symlink(vercelConfig, rootVercelConfig, symlinkType);
 
     await exec(vercelCommand, buildArgs, {
       cwd: context.root,
     });
   } finally {
     try {
-      fs.unlink(rootVercelDir);
-      logger.debug(`Removed root .vercel symlink`);
+      await fs.unlink(rootVercelDir);
+      if (hasVercelConfig) await fs.unlink(rootVercelConfig);
+      logger.debug(`Removed root .vercel and vercel.json symlinks`);
     } catch (e) {
-      logger.warn('Failed to clean up root .vercel symlink');
+      logger.warn('Failed to clean up root .vercel and vercel.json symlinks');
     }
   }
 
